@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Anger",
+    "description": "Strong feeling of displeasure or hostility"
+  },
+  {
+    "name": "Frustration",
+    "description": "Feeling of being upset or annoyed"
+  },
+  {
+    "name": "Anxiety",
+    "description": "Feeling of worry, nervousness, or unease"
+  },
+  {
+    "name": "Fear",
+    "description": "An unpleasant emotion caused by threat"
+  },
+  {
+    "name": "Sadness",
+    "description": "Feeling of sorrow or unhappiness"
+  },
+  {
+    "name": "Grief",
+    "description": "Deep sorrow, especially caused by loss"
+  },
+  {
+    "name": "Guilt",
+    "description": "Feeling of having done wrong or failed"
+  },
+  {
+    "name": "Shame",
+    "description": "Painful feeling of humiliation or distress"
+  },
+  {
+    "name": "Joy",
+    "description": "Feeling of great pleasure and happiness"
+  },
+  {
+    "name": "Happiness",
+    "description": "Feeling of joy, pleasure, or contentment"
+  },
+  {
+    "name": "Excitement",
+    "description": "Feeling of enthusiasm and eagerness"
+  },
+  {
+    "name": "Hope",
+    "description": "Feeling of expectation and desire"
+  },
+  {
+    "name": "Love",
+    "description": "Deep affection and attachment"
+  },
+  {
+    "name": "Gratitude",
+    "description": "Feeling of thankfulness and appreciation"
+  },
+  {
+    "name": "Surprise",
+    "description": "Feeling caused by something unexpected"
+  },
+  {
+    "name": "Confusion",
+    "description": "Feeling of being bewildered or unclear"
+  },
+  {
+    "name": "Relief",
+    "description": "Feeling of reassurance and relaxation"
+  },
+  {
+    "name": "Pride",
+    "description": "Feeling of deep pleasure from achievements"
+  },
+  {
+    "name": "Confidence",
+    "description": "Feeling of self-assurance and certainty"
+  },
+  {
+    "name": "Overwhelm",
+    "description": "Feeling of being overcome by intensity"
+  }
+]

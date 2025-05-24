@@ -1,0 +1,85 @@
+Session 1/24
+Date: May 03, 2025
+Time: 11:00 AM
+Client: Diego (Data Science Master's Student)
+Professional: Dr. Harper Torres (Licensed Clinical Psychologist)
+
+[11:00] Dr. Harper Torres: Hi Diego, it's great to see you again. How have you been since our last session?  
+
+[11:02] Diego: Hi, Dr. Torres. Honestly, I’ve been okay. The week was a bit stressful with exams and some project deadlines, but I managed to get through it.  
+
+[11:04] Dr. Harper: That’s good to hear you’re managing, even with the stress. You mentioned last time that balancing study and personal time is a challenge. Have you noticed any changes in how you handle that?  
+
+[11:07] Diego: Yeah, I’ve been trying to set more specific study blocks using the Pomodoro technique you suggested. It’s helped me stay focused, but I still feel anxious about falling behind, especially with upcoming presentations.  
+
+[11:09] Dr. Harper: That’s a common concern among students, especially in rigorous programs. How do you usually respond when that anxiety kicks in?  
+
+[11:12] Diego: I tend to get into my head, overthink, and sometimes procrastinate because I feel overwhelmed. It’s like a cycle.  
+
+[11:14] Dr. Harper: Recognizing that cycle is a good first step. Have you tried any of the breathing exercises or mindfulness techniques we discussed last time to manage those moments?  
+
+[11:17] Diego: I’ve done the deep breathing a few times, especially before presentations. It helps a little, but I still get nervous.  
+
+[11:19] Dr. Harper: That’s normal. Sometimes, combining breathing with a quick cognitive redirect—like reminding yourself of your preparation and capabilities—can strengthen your resilience. Would you like to practice a short mindfulness exercise now?  
+
+[11:22] Diego: Sure, I can try that.  
+
+[11:23] Dr. Harper: Great. I’ll guide you through it. Sit comfortably, close your eyes if you like, and focus on your breath. Inhale slowly through your nose… and exhale gently through your mouth. (pause) Notice how your chest rises and falls. If your mind wanders, gently bring it back to your breath. Let's do that for about a minute.  
+
+[11:25] (Pause for exercise)  
+
+[11:26] Diego: Okay, I felt a little calmer.  
+
+[11:27] Dr. Harper: Excellent. That’s a skill you can use anytime you start feeling overwhelmed. Now, I’d like to check in about your social confidence. Have you had any opportunities to practice social exposure since we last talked?  
+
+[11:30] Diego: A bit. I went to a small study group last week, but I felt pretty anxious beforehand. Once I was there, I tried to participate, but I was still pretty quiet.  
+
+[11:33] Dr. Harper: That’s a good step—showing up is often the hardest part. When you notice yourself feeling anxious in these situations, what thoughts come up?  
+
+[11:36] Diego: Mainly, I think, “What if I say something stupid?” or “They won’t want to talk to me.”  
+
+[11:39] Dr. Harper: Those are common negative thoughts. Let’s work on challenging them. For example, what’s the evidence that you might say something stupid?  
+
+[11:42] Diego: Honestly, I guess I don’t have much evidence for that. I’ve said some things in class that people responded well to.  
+
+[11:44] Dr. Harper: Exactly. Sometimes, our mind amplifies the worst case. A helpful technique is to reframe these thoughts. Can you try saying, “I have valuable things to contribute,” instead of focusing on the fear?  
+
+[11:47] Diego: I’ll try that.  
+
+[11:48] Dr. Harper: Good. And remember, social skills are like any other—improve with practice. Small exposures like these are building your confidence. Do you think setting a goal to attend at least one more social event this week would be manageable?  
+
+[11:51] Diego: Yeah, I think I can do that. Maybe a casual meetup or a class-related event.  
+
+[11:53] Dr. Harper: That sounds like a solid plan. Now, shifting gears a little—how are you feeling about your research work? Are you making progress on your project?  
+
+[11:56] Diego: I’ve been automating some data analysis scripts, which is helping me save time. But I still feel pressure to produce results quickly, especially with upcoming deadlines.  
+
+[11:59] Dr. Harper: It’s understandable to feel that way. Have you considered breaking down your project into smaller, manageable tasks with specific deadlines?  
+
+[12:02] Diego: Not systematically. I usually just set broad goals.  
+
+[12:04] Dr. Harper: That can sometimes lead to feeling overwhelmed. Let’s try a planning exercise now. Think of your next big milestone—say, completing a section of your analysis. How can you break that into smaller steps?  
+
+[12:07] Diego: Maybe first, finish cleaning the dataset. Then, run preliminary models, and finally, interpret the results.  
+
+[12:10] Dr. Harper: Excellent. Assign a realistic timeframe to each step. That way, your progress becomes clearer, and you can track your achievements. Would you like help setting up a simple schedule for this?  
+
+[12:12] Diego: Yes, that would be helpful.  
+
+[12:13] Dr. Harper: Great. Overall, it seems you’re making good efforts—using techniques like the Pomodoro method, engaging socially, and planning your research. It’s normal to have ups and downs, but your awareness and proactive approach are very positive signs.  
+
+[12:16] Diego: Thanks, I feel a bit more confident after talking about these strategies.  
+
+[12:18] Dr. Harper: That’s wonderful. For next week, I’d like you to practice the mindfulness exercise daily, attend one social event, and try the planning method for your research milestones. How does that sound?  
+
+[12:21] Diego: Sounds good. I’ll do my best.  
+
+[12:22] Dr. Harper: Perfect. Before we end today, do you have any questions or anything else you want to share?  
+
+[12:24] Diego: Not right now. Just appreciate the support and guidance.  
+
+[12:25] Dr. Harper: You're very welcome. I look forward to hearing about your progress next week. Remember, small steps add up. Take care, Diego.  
+
+[12:26] Diego: Thanks, Dr. Torres. Have a great day.  
+
+[12:27] Dr. Harper: You too. See you next week.

@@ -1,0 +1,79 @@
+Session 8/24
+Date: June 26, 2025
+Time: 02:00 PM
+Client: Lina (Freelance Developer)
+Professional: Riley Chen (Executive Function & ADHD Coach)
+
+[02:00] Riley: Hi Lina! Great to see you again. How have you been since our last session? Any wins or surprises this week?
+
+[02:02] Lina: Hi Riley! Thanks. Actually, I think I’ve been doing better with my routines. I managed to stick to my morning work block most days, which is a big step for me.
+
+[02:05] Riley: That’s fantastic! Morning routines are often a tough nut to crack—so celebrating that progress is key. What do you think helped you keep that consistency this week?
+
+[02:07] Lina: I think it’s partly because I set up a little gamified system in Notion—like earning points for starting on time and completing my first task. It’s been motivating.
+
+[02:10] Riley: Love that! Gamification can be a real game-changer. Did you notice any impact on your focus or energy levels when you used the points system?
+
+[02:12] Lina: Yeah, I felt more motivated to get going, especially on mornings when I was tempted to procrastinate. It kind of pushed me to just start.
+
+[02:15] Riley: That’s a perfect example of external motivation working in your favor. Have you thought about expanding that system to other parts of your day or different project types?
+
+[02:17] Lina: I was actually thinking about that. Maybe I can create a similar system for project deadlines or breaking down big tasks.
+
+[02:20] Riley: Great idea! Remember, chunking big projects into smaller, manageable pieces can help reduce overwhelm and give you more opportunities for those points. Speaking of which, how’s your task chunking practice going?
+
+[02:22] Lina: Honestly, I’ve been trying to chunk tasks more intentionally, but sometimes I still get stuck on where to start or how to break things down.
+
+[02:25] Riley: That’s totally normal, especially with ADHD. It’s about practice and refining your approach. Do you want to do a quick exercise now to work through a specific project? Maybe one that’s been feeling overwhelming?
+
+[02:27] Lina: Yeah, that would help. I’ve got this big client project that’s due in two weeks, but I keep hesitating because I don’t know where to start.
+
+[02:30] Riley: Perfect. Let’s break it down live. First, what’s the main deliverable or goal for this project?
+
+[02:32] Lina: I need to develop a custom dashboard for their analytics platform.
+
+[02:34] Riley: Great. So, step one is defining the major components or features—what do you need to build?
+
+[02:36] Lina: Well, I need to set up data visualization modules, user authentication, and the dashboard layout.
+
+[02:39] Riley: Excellent. Now, let’s turn each of those into smaller chunks. For example, under data visualization, what’s the first small step?
+
+[02:41] Lina: Maybe sketching out the types of charts they want and what data each needs.
+
+[02:43] Riley: Perfect. And for user authentication?
+
+[02:45] Lina: I suppose integrating the login system, maybe starting with the backend setup.
+
+[02:47] Riley: Exactly. Breaking it down like that makes it less intimidating. How do you feel about turning this into a visual task map in Notion or your preferred tool?
+
+[02:50] Lina: I like that. That way I can check off each smaller step as I go, and see progress.
+
+[02:52] Riley: Yes! Visual progress is so motivating. Now, regarding your work schedule—how are you managing your energy and focus during the day?
+
+[02:55] Lina: Honestly, I still struggle with energy dips. Sometimes I get super focused and then crash, especially after long coding sessions.
+
+[02:57] Riley: That’s common. Have you tried setting timers for focused work periods, like Pomodoros, and scheduling regular breaks?
+
+[03:00] Lina: Yeah, I’ve been experimenting with 25-minute work blocks and 5-minute breaks. It helps a bit, but I still feel guilty taking breaks sometimes.
+
+[03:02] Riley: That’s a common challenge. Remember, breaks are essential for maintaining sustained focus. Think of them as recharge stations—your productivity pit stops. Would it help if we built a visual schedule that includes these breaks and work blocks?
+
+[03:05] Lina: Definitely. Maybe even color-coding them to visually distinguish work from rest.
+
+[03:07] Riley: Perfect. And perhaps you can incorporate a quick check-in during each break—like a 2-minute stretch or mindfulness moment—to reset.
+
+[03:10] Lina: I like that idea. It might help me stay more energized and less guilty about taking breaks.
+
+[03:12] Riley: Awesome. So, for next steps, I’ll send you a Notion template for your task map, and we can refine your schedule with those visual cues. How does that sound?
+
+[03:15] Lina: Sounds great, Riley. I’m feeling more hopeful about tackling this big project now.
+
+[03:17] Riley: I’m glad to hear that. Remember, progress is a series of small wins—like your morning routine and breaking down tasks. We’re building a system that works for you.
+
+[03:20] Lina: Thanks so much. I’ll start setting up those task chunks and schedule my work sessions with breaks. Looking forward to sharing my progress next week.
+
+[03:22] Riley: Looking forward to hearing about it! Keep experimenting, and don’t hesitate to reach out if you hit any snags. See you next week!
+
+[03:25] Lina: Will do. Thanks again, Riley. Bye!
+
+[03:26] Riley: Bye, Lina!

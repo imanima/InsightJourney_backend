@@ -1,0 +1,32 @@
+# Use Python 3.11 slim image
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
+
+# Install only the core dependencies
+RUN pip install --no-cache-dir fastapi uvicorn python-dotenv
+
+# Copy only the essential files
+COPY main.py .
+COPY services/__init__.py services/
+COPY routes/__init__.py routes/
+
+# Create empty directories for imports to resolve
+RUN mkdir -p utils
+
+# Create a simple health check file
+RUN echo 'from fastapi import FastAPI\napp = FastAPI()\n@app.get("/")\ndef read_root():\n    return {"message": "Insight Journey API is running!"}' > app.py
+
+# Set environment variables
+ENV PORT=8080
+ENV HOST=0.0.0.0
+
+# Expose port
+EXPOSE 8080
+
+# Run the minimal application
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"] 

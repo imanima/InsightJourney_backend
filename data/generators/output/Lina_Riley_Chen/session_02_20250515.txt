@@ -1,0 +1,73 @@
+Session 2/24
+Date: May 15, 2025
+Time: 02:00 PM
+Client: Lina (Freelance Developer)
+Professional: Riley Chen (Executive Function & ADHD Coach)
+
+[02:00] Riley: Hi Lina! Great to see you again. How’s your week been since our last session? Any wins or challenges you want to share?
+
+[02:03] Lina: Hey Riley! Thanks. It’s been a bit of a rollercoaster, honestly. I did manage to set up some routines, but I still find myself stuck on certain tasks, especially when deadlines get tight. I feel overwhelmed sometimes.
+
+[02:07] Riley: That’s totally normal, especially with ADHD. Remember, progress isn’t linear. Let’s celebrate what worked — did you try that new time-blocking system we talked about last week?
+
+[02:09] Lina: Yeah, I did. I blocked out mornings for deep work on my current project, using your Notion template. It helped a lot to see everything laid out, but I still had trouble sticking to it when distractions came up.
+
+[02:12] Riley: That’s a good start. External reminders can help with that. Did you set any alarms or app notifications?
+
+[02:15] Lina: I set a couple of alarms, but I kept snoozing them… (laughs) I guess I need more engaging cues.
+
+[02:17] Riley: Absolutely. Sometimes, gamifying those cues can boost motivation. Maybe you could assign points or rewards for sticking to your schedule. Like, if you complete a time block without distractions, you earn a "focus badge" in your habit tracker.
+
+[02:20] Lina: I like that idea! It feels more fun than just ticking boxes. I think I’d be motivated to earn badges.
+
+[02:23] Riley: Great! Let’s talk about task paralysis—are there specific types of tasks where you get stuck more often?
+
+[02:26] Lina: Yes, especially with complex coding tasks. I get overwhelmed just looking at the whole thing, so I tend to avoid starting.
+
+[02:29] Riley: That’s common. Have you tried breaking down big tasks into smaller, more manageable chunks? Like, instead of “finish feature,” maybe “write the function skeleton” or “review the API documentation”?
+
+[02:32] Lina: I’ve heard of that, but I haven’t been consistent with it. I think I often forget to do that or get distracted before I start.
+
+[02:35] Riley: Let’s set up a simple system: before you begin a task, spend 5 minutes chunking it into smaller steps. Use your Notion or AI Kanban board for that. Then, for each chunk, set a mini time block—say, 15-20 minutes—to work on it. This reduces overwhelm and builds momentum.
+
+[02:38] Lina: That sounds doable. I like the idea of mini sprints. It makes the work feel less daunting.
+
+[02:41] Riley: Exactly. And remember, the goal is consistency, not perfection. Also, how’s your energy management? Do you notice times of day when you’re more focused?
+
+[02:44] Lina: Hmm, I think I’m sharper in the late mornings, but I tend to crash in the afternoons, especially after lunch.
+
+[02:47] Riley: Good insight. We can plan your most demanding tasks for your high-energy windows. For the afternoons, maybe lighter or more creative tasks, or even scheduled breaks to recharge.
+
+[02:50] Lina: That makes sense. I tend to push through when I’m tired, but then I end up burned out.
+
+[02:52] Riley: That’s a common trap. Incorporating regular energy-check-ins and scheduled breaks can help. Have you tried using external timers or Pomodoro techniques?
+
+[02:55] Lina: I’ve used the Pomodoro timer before, but I often get carried away and go beyond the intervals.
+
+[02:58] Riley: To keep accountability, maybe you could have a visual progress tracker — like a habit score dashboard or a progress bar in your Notion. Seeing your streaks grow can be motivating.
+
+[03:00] Lina: Yes! I love visual cues. It makes progress more tangible, especially when I’m feeling stuck.
+
+[03:03] Riley: Perfect. So, to summarize our plan: First, implement mini task chunking before tackling big tasks. Second, reinforce your time blocks with gamified cues and visual progress tracking. And third, schedule high-energy work in the mornings, lighter tasks in the afternoon, with regular energy check-ins.
+
+[03:06] Lina: That covers a lot. I feel more focused just hearing it laid out. Do you think I can start applying these today?
+
+[03:09] Riley: Absolutely. Start small—pick one big task to chunk today, set a timer, and track your focus points. And remember, I’m here to support you every step.
+
+[03:12] Lina: Thanks, Riley. I’m excited to try these new strategies. I already feel a bit more hopeful about managing my workload.
+
+[03:15] Riley: That’s fantastic, Lina. Before we wrap up, are there any other hurdles you want to address today?
+
+[03:18] Lina: Maybe just one: I still struggle with getting back on track after getting distracted. Sometimes I spend ages trying to find the right app or reminder to get me back in focus.
+
+[03:21] Riley: That’s common. How about creating a quick “reset” routine? Like a 2-minute mindfulness or breathing exercise, followed by reviewing your next small step. This external cue can help you re-engage quickly.
+
+[03:24] Lina: I like that. Short, simple, and effective.
+
+[03:27] Riley: Great. So, for next week, your homework is to practice task chunking, set up your visual progress tracker, and create your reset routine. We’ll review how these work next session.
+
+[03:30] Lina: Sounds good. Thanks again, Riley. I’m feeling more in control already.
+
+[03:33] Riley: You’re doing amazing, Lina. Remember, progress is a journey—small steps add up. See you next week!
+
+[03:36] Lina: Bye!

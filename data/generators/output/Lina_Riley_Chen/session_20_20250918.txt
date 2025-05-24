@@ -1,0 +1,67 @@
+Session 20/24
+Date: September 18, 2025
+Time: 02:00 PM
+Client: Lina (Freelance Developer)
+Professional: Riley Chen (Executive Function & ADHD Coach)
+
+[02:00] Riley: Hi Lina! Great to see you again. How’s your week been since our last session? Any wins or surprises?
+
+[02:03] Lina: Hey Riley! Thanks. Honestly, it’s been a bit of a rollercoaster. I managed to stick to my new morning routine for a couple of days — woke up, did some quick journaling and planning — but then I got overwhelmed with a big project and kind of fell off track. (sighs) It feels like I’m back to square one.
+
+[02:07] Riley: That’s totally normal, Lina. Progress isn’t always linear, especially with those big projects. What do you think triggered the overwhelm? Was it the scope, the deadline, or something else?
+
+[02:10] Lina: Mostly the scope. I had a deadline looming, and I kept thinking I needed to do everything at once, so I froze. It’s like my brain just shut down, and I couldn’t decide where to start.
+
+[02:13] Riley: Yeah, task paralysis can be a real obstacle. Remember, we talked about chunking tasks into smaller, more manageable pieces. Did you get a chance to break down that project since last time?
+
+[02:16] Lina: I did try, but I think I didn’t make the chunks small enough. I ended up with a list of ten big tasks instead of tiny steps.
+
+[02:20] Riley: That’s a good start, though! Sometimes, even listing the steps is progress. Let’s refine that. How about we turn each big task into micro-tasks—really bite-sized? For example, instead of “Finish module,” it could be “Write function A,” “Test function A,” “Write documentation for function A.” How does that sound?
+
+[02:24] Lina: That makes sense. I think I was trying to do too much at once. Breaking it down sounds less intimidating.
+
+[02:27] Riley: Exactly. And you mentioned feeling overwhelmed by deadlines. Have you considered external reminders or time blocks to keep you on track?
+
+[02:30] Lina: I’ve used timers before, but I tend to ignore them when I get deep into coding. Maybe I need a better system?
+
+[02:34] Riley: Let’s gamify it! How about setting a timer for each micro-task and rewarding yourself with points or breaks afterward? For example, completing a small step earns a 5-minute break or a small treat. Would that motivate you?
+
+[02:37] Lina: Oh, I like that! Turning work into a game could make it more fun. I think I’d be more motivated to finish each tiny task if I knew there was a reward coming.
+
+[02:40] Riley: Great! We can track your points in your Notion habit dashboard. Speaking of routines, how’s your morning ritual going? You mentioned trying to get it consistent.
+
+[02:43] Lina: It’s been hit or miss. Some mornings I wake up early, do my journaling, and plan, but other days I just hit snooze and skip it altogether.
+
+[02:47] Riley: That’s okay. Consistency takes time. What if we set a gentle external cue? Like placing your journal and planner somewhere visible or setting an alarm with a motivational message? Maybe even linking it to a daily habit cue, like after brushing your teeth?
+
+[02:50] Lina: I like that. I could put my journal on my nightstand and set a reminder that says, “Start your day with a quick plan!” That might help.
+
+[02:53] Riley: Perfect. Over time, those cues become automatic triggers. Now, how about your energy levels during the day? Do you notice times when you’re naturally more focused or energized?
+
+[02:56] Lina: Yeah, I usually feel more alert in the late mornings, but by mid-afternoon, I hit a slump. Sometimes I try to push through, but I end up wasting time scrolling or zoning out.
+
+[03:00] Riley: That’s common. A strategy could be to schedule your most demanding tasks during your peak energy times—late morning—and reserve low-energy periods for lighter tasks or breaks. Also, do you use any external reminders or timers during those slump periods?
+
+[03:03] Lina: Not consistently. I think I could set a Pomodoro timer for those high-focus tasks, but I tend to ignore them when I’m tired.
+
+[03:07] Riley: Let’s try to build in some energy regulation techniques. For example, when you notice your slump, take a quick physical activity break—stretch, walk, or even do a quick dance. Sometimes changing your state helps reset focus.
+
+[03:10] Lina: That’s a good idea. I’ve noticed that moving helps me shake off that sluggish feeling. Maybe I’ll set an alarm to remind myself to stand up every hour.
+
+[03:13] Riley: Excellent. Small external cues like that can make a big difference. How are you feeling about implementing these new micro-tasks, routines, and energy strategies this week?
+
+[03:16] Lina: Honestly, a bit nervous — I’m worried I won’t stick to everything. But I do want to try. Breaking things down and gamifying sounds fun, so I’ll give it a shot.
+
+[03:19] Riley: That’s the spirit! Remember, the goal isn’t perfection but progress. Keep track of your wins—big or small—in your habit dashboard. And if you hit a bump, we’ll troubleshoot next week.
+
+[03:22] Lina: Thanks, Riley. I feel more hopeful now. I like the idea of making work into a game. It feels less overwhelming.
+
+[03:25] Riley: That’s wonderful to hear. Before we wrap up, do you want to set one specific action item for next week?
+
+[03:28] Lina: Yes. I’ll break down my current project into micro-tasks, set timers with rewards, and incorporate a morning cue with my journal. Plus, I’ll set reminders to move during my slump periods.
+
+[03:31] Riley: Perfect. I’ll send you a Notion template to help organize those micro-tasks and track your progress. Looking forward to hearing how it goes!
+
+[03:34] Lina: Thanks, Riley. This feels doable. See you next week!
+
+[03:36] Riley: See you, Lina. Keep celebrating those small wins!

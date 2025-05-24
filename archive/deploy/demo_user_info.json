@@ -1,0 +1,18 @@
+{
+  "user_id": "demo_user_b3a6ef16",
+  "email": "demo_327c391f@example.com",
+  "sessions": [
+    {
+      "id": "S_dc06dcad-cb72-4157-8aaf-8f075824c2ad",
+      "topic": "Career Advancement"
+    },
+    {
+      "id": "S_f41d7ba0-09db-4e7a-bb39-9c0b21349a19",
+      "topic": "Relationship Communication"
+    },
+    {
+      "id": "S_f14941ec-f30d-4360-9789-6b5f08a926c5",
+      "topic": "Work-Life Balance"
+    }
+  ]
+}

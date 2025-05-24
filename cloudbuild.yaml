@@ -1,0 +1,45 @@
+steps:
+  # Install dependencies
+  - name: 'python:3.11'
+    entrypoint: pip
+    args: ['install', '-r', 'requirements.txt']
+
+  # Run tests
+  - name: 'python:3.11'
+    entrypoint: python
+    args: ['-m', 'pytest', 'tests/', '-v']
+    env:
+      - 'ENVIRONMENT=test'
+      - 'TESTING=1'
+      - 'NEO4J_URI=${_NEO4J_URI}'
+      - 'NEO4J_USERNAME=${_NEO4J_USER}'
+      - 'NEO4J_PASSWORD=${_NEO4J_PASSWORD}'
+      - 'SECRET_KEY=test-secret-key'
+      - 'JWT_SECRET_KEY=test-jwt-secret-key'
+
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/insight-journey-api:latest', '.']
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/insight-journey-api:latest']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'insight-journey-api'
+      - '--image=gcr.io/$PROJECT_ID/insight-journey-api:latest'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--timeout=300s'
+      - '--cpu=1'
+      - '--memory=512Mi'
+      - '--set-env-vars=NEO4J_URI=${_NEO4J_URI},NEO4J_USERNAME=${_NEO4J_USER},NEO4J_PASSWORD=${_NEO4J_PASSWORD},SECRET_KEY=${_SECRET_KEY},JWT_SECRET_KEY=${_JWT_SECRET_KEY}'
+
+images:
+  - 'gcr.io/$PROJECT_ID/insight-journey-api:latest' 

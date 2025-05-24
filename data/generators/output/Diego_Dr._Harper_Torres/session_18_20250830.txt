@@ -1,0 +1,83 @@
+Session 18/24
+Date: August 30, 2025
+Time: 11:00 AM
+Client: Diego (Data Science Master's Student)
+Professional: Dr. Harper Torres (Licensed Clinical Psychologist)
+
+[11:00] Dr. Torres: Hi Diego, good to see you again. How have you been since our last session? Any notable changes or moments you'd like to share?
+
+[11:03] Diego: Hi, Dr. Torres. Overall, I think I’ve been better. I’ve managed to implement some of the stress reduction exercises we talked about, especially the mindfulness breathing. It’s helped a little during my study sessions. But I still feel pretty anxious, especially when I have deadlines or social events.
+
+[11:07] Dr. Torres: That’s great to hear you’ve started practicing the breathing exercises—that’s a solid step. It’s normal for anxiety to persist, especially with looming deadlines and social situations. Can you tell me more about what happens when you’re approaching a deadline or attending a social event? What do you notice in your body and mind?
+
+[11:10] Diego: Well, my heart races, and I start thinking I won’t finish my work on time or I’ll embarrass myself. Sometimes I get a knot in my stomach, and I just want to avoid the whole thing.
+
+[11:12] Dr. Torres: That’s very insightful. Your body reacting with increased heart rate and stomach tension is typical of anxiety. The thoughts about not finishing or embarrassing yourself also reinforce that anxiety cycle. Have you noticed any specific patterns or triggers that tend to make these feelings worse?
+
+[11:15] Diego: Yeah, mostly when I have to talk in class or meet new people. Especially in unfamiliar settings, I feel like everyone is judging me, and that makes me more nervous.
+
+[11:17] Dr. Torres: It sounds like social situations, especially in new environments, are particularly challenging and trigger your anxiety. We’ve talked before about some exposure techniques. Would you feel comfortable discussing how you’ve been practicing social exposure or if you’ve encountered any difficulties?
+
+[11:20] Diego: I’ve tried to join a couple of study groups, but I still find it hard to speak up. I usually just listen and avoid eye contact. I worry I’ll stumble over my words or say something stupid.
+
+[11:23] Dr. Torres: That’s a common experience, Diego. Even small steps like attending the group are progress. Remember, the goal isn’t perfection but exposure to reduce fear gradually. Have you noticed any moments where you managed to speak up or stay engaged longer than before?
+
+[11:25] Diego: Actually, yes. Last week, I asked a question about the data analysis method during our study session. It was nerve-wracking, but I did it. I felt a bit proud afterward.
+
+[11:27] Dr. Torres: That’s excellent progress—recognizing and celebrating those moments is important. It shows you’re building confidence step by step. How did you feel right after asking the question? Any lingering worries or relief?
+
+[11:30] Diego: I felt relieved, but also worried that I might have sounded stupid or that others thought I was weird. That thought stuck with me for a little while.
+
+[11:33] Dr. Torres: That’s a very typical self-critical thought, especially for someone with social anxiety. It’s great you noticed both the positive moment and the critical thought afterward. Would you like to work on challenging that thought next time it arises?
+
+[11:36] Diego: Yeah, I think that would help. Sometimes I just accept the negative thoughts without questioning them.
+
+[11:38] Dr. Torres: That’s understandable. Cognitive restructuring can help you examine and reframe those thoughts. For example, when you think “I sounded stupid,” you could ask yourself, “What evidence do I have that I sounded stupid? What’s more likely—did I actually embarrass myself, or did I just worry I might?”
+
+[11:41] Diego: That makes sense. I guess I tend to jump to the worst-case scenario.
+
+[11:43] Dr. Torres: Exactly. We’ll work on that more explicitly in future sessions. Now, I want to check in on your sleep habits—have you been able to maintain your sleep hygiene routines? Any difficulties?
+
+[11:46] Diego: Honestly, sleep is still a bit irregular. Sometimes I stay up late working on my research or coding projects, especially when I get into a flow state. I know I should stick to a schedule, but I find it hard to stop.
+
+[11:50] Dr. Torres: That’s common among students deeply engaged in their projects. The key is balancing your flow state with consistent sleep routines. Have you tried setting a specific ‘shutdown’ time for work, maybe 30 minutes before bed, to help your mind wind down?
+
+[11:53] Diego: I haven’t been strict about that, but I could try. Often I just keep working until I’m exhausted.
+
+[11:55] Dr. Torres: That’s a good starting point. We can also incorporate some relaxation techniques before bed, like progressive muscle relaxation or a brief mindfulness exercise, to signal your body it’s time to sleep. Would you like to practice a quick relaxation now?
+
+[11:58] Diego: Sure, I can try.
+
+[12:00] (Dr. Torres guides Diego through a 2-minute progressive muscle relaxation, focusing on releasing tension from his shoulders and jaw. Afterward...)
+
+[12:02] Dr. Torres: How do you feel after that exercise?
+
+[12:04] Diego: Honestly, a bit more relaxed. My shoulders feel less tense.
+
+[12:06] Dr. Torres: That’s great. Regularly practicing this can improve your sleep quality over time. Now, let’s shift to your academic goals. You mentioned wanting to excel in your research and prepare for transitioning into industry. How are you feeling about your progress toward those goals?
+
+[12:09] Diego: I think I’ve been making good headway. I’ve been automating parts of my research workflow with scripts, which saves time. But I still feel pressure to publish or present, and that makes me anxious sometimes.
+
+[12:12] Dr. Torres: That pressure is understandable, especially when you’re aiming to build a strong academic profile. It might help to break down your larger goals into smaller, manageable milestones and acknowledge your achievements along the way. Have you set specific, measurable targets for your research or skill development?
+
+[12:15] Diego: Not really. I tend to focus on the big picture, like finishing my thesis or getting a job, but I could definitely benefit from smaller steps.
+
+[12:18] Dr. Torres: Let’s try to outline some concrete steps today. For example, you might set a goal to finish a certain section of your thesis by next month or to learn a new data visualization tool within two weeks. How does that sound?
+
+[12:21] Diego: That sounds doable. I think having those smaller goals would help reduce my anxiety about the big deadlines.
+
+[12:23] Dr. Torres: Excellent. Also, integrating regular check-ins on your progress can boost your sense of mastery and reduce overwhelm. Would you like to schedule a follow-up on these goals next week?
+
+[12:26] Diego: Yes, I’d like that. It would help me stay accountable.
+
+[12:29] Dr. Torres: Perfect. To wrap up today’s session, let’s summarize our key points. You’ve been practicing mindfulness, which helps with immediate anxiety, and you’ve taken steps to participate more in social settings, like asking questions. You’re aware of negative thoughts about yourself and want to work on challenging them. Sleep routines are an area to improve, and you’re interested in breaking your big goals into smaller, manageable steps. Does that sound accurate?
+
+[12:32] Diego: Yes, that captures everything. Thanks, Dr. Torres.
+
+[12:34] Dr. Torres: Great work today, Diego. For next week, I’d like you to practice the relaxation exercise before bed and draft some small goals for your research progress. We’ll review your experiences and continue working on challenging negative thoughts. Any questions before we finish?
+
+[12:36] Diego: Not right now. Thanks again. I feel more focused after today’s session.
+
+[12:38] Dr. Torres: I’m glad to hear that. Take care, and I’ll see you next week.
+
+[12:40] (End of session)

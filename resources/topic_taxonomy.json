@@ -1,0 +1,359 @@
+[
+  {
+    "name": "Work",
+    "description": "Professional life and career",
+    "level": "main"
+  },
+  {
+    "name": "Career Growth",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Job Satisfaction",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Work-Life Balance",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Workplace Relationships",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Manager Relationship",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Team Dynamics",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Workload Management",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Professional Development",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Job Security",
+    "description": "Subtopic of Work",
+    "level": "sub",
+    "parent": "Work"
+  },
+  {
+    "name": "Family",
+    "description": "Relationships with family members",
+    "level": "main"
+  },
+  {
+    "name": "Parent-Child Relationship",
+    "description": "Subtopic of Family",
+    "level": "sub",
+    "parent": "Family"
+  },
+  {
+    "name": "Sibling Relationships",
+    "description": "Subtopic of Family",
+    "level": "sub",
+    "parent": "Family"
+  },
+  {
+    "name": "Extended Family",
+    "description": "Subtopic of Family",
+    "level": "sub",
+    "parent": "Family"
+  },
+  {
+    "name": "Family Dynamics",
+    "description": "Subtopic of Family",
+    "level": "sub",
+    "parent": "Family"
+  },
+  {
+    "name": "Family Responsibilities",
+    "description": "Subtopic of Family",
+    "level": "sub",
+    "parent": "Family"
+  },
+  {
+    "name": "Family Conflict",
+    "description": "Subtopic of Family",
+    "level": "sub",
+    "parent": "Family"
+  },
+  {
+    "name": "Relationships",
+    "description": "Personal relationships",
+    "level": "main"
+  },
+  {
+    "name": "Romantic Relationships",
+    "description": "Subtopic of Relationships",
+    "level": "sub",
+    "parent": "Relationships"
+  },
+  {
+    "name": "Friendships",
+    "description": "Subtopic of Relationships",
+    "level": "sub",
+    "parent": "Relationships"
+  },
+  {
+    "name": "Social Connections",
+    "description": "Subtopic of Relationships",
+    "level": "sub",
+    "parent": "Relationships"
+  },
+  {
+    "name": "Communication",
+    "description": "Subtopic of Relationships",
+    "level": "sub",
+    "parent": "Relationships"
+  },
+  {
+    "name": "Trust",
+    "description": "Subtopic of Relationships",
+    "level": "sub",
+    "parent": "Relationships"
+  },
+  {
+    "name": "Boundaries",
+    "description": "Subtopic of Relationships",
+    "level": "sub",
+    "parent": "Relationships"
+  },
+  {
+    "name": "Conflict Resolution",
+    "description": "Subtopic of Relationships",
+    "level": "sub",
+    "parent": "Relationships"
+  },
+  {
+    "name": "Self-Esteem",
+    "description": "Confidence in one's worth or abilities",
+    "level": "main"
+  },
+  {
+    "name": "Self-Image",
+    "description": "Subtopic of Self-Esteem",
+    "level": "sub",
+    "parent": "Self-Esteem"
+  },
+  {
+    "name": "Self-Confidence",
+    "description": "Subtopic of Self-Esteem",
+    "level": "sub",
+    "parent": "Self-Esteem"
+  },
+  {
+    "name": "Self-Worth",
+    "description": "Subtopic of Self-Esteem",
+    "level": "sub",
+    "parent": "Self-Esteem"
+  },
+  {
+    "name": "Body Image",
+    "description": "Subtopic of Self-Esteem",
+    "level": "sub",
+    "parent": "Self-Esteem"
+  },
+  {
+    "name": "Health",
+    "description": "Physical and mental wellbeing",
+    "level": "main"
+  },
+  {
+    "name": "Physical Health",
+    "description": "Subtopic of Health",
+    "level": "sub",
+    "parent": "Health"
+  },
+  {
+    "name": "Mental Health",
+    "description": "Subtopic of Health",
+    "level": "sub",
+    "parent": "Health"
+  },
+  {
+    "name": "Sleep",
+    "description": "Subtopic of Health",
+    "level": "sub",
+    "parent": "Health"
+  },
+  {
+    "name": "Exercise",
+    "description": "Subtopic of Health",
+    "level": "sub",
+    "parent": "Health"
+  },
+  {
+    "name": "Nutrition",
+    "description": "Subtopic of Health",
+    "level": "sub",
+    "parent": "Health"
+  },
+  {
+    "name": "Chronic Conditions",
+    "description": "Subtopic of Health",
+    "level": "sub",
+    "parent": "Health"
+  },
+  {
+    "name": "Healthcare",
+    "description": "Subtopic of Health",
+    "level": "sub",
+    "parent": "Health"
+  },
+  {
+    "name": "Personal Development",
+    "description": "Growth and learning",
+    "level": "main"
+  },
+  {
+    "name": "Self-Improvement",
+    "description": "Subtopic of Personal Development",
+    "level": "sub",
+    "parent": "Personal Development"
+  },
+  {
+    "name": "Goal Setting",
+    "description": "Subtopic of Personal Development",
+    "level": "sub",
+    "parent": "Personal Development"
+  },
+  {
+    "name": "Time Management",
+    "description": "Subtopic of Personal Development",
+    "level": "sub",
+    "parent": "Personal Development"
+  },
+  {
+    "name": "Stress Management",
+    "description": "Subtopic of Personal Development",
+    "level": "sub",
+    "parent": "Personal Development"
+  },
+  {
+    "name": "Mindfulness",
+    "description": "Subtopic of Personal Development",
+    "level": "sub",
+    "parent": "Personal Development"
+  },
+  {
+    "name": "Self-Care",
+    "description": "Subtopic of Personal Development",
+    "level": "sub",
+    "parent": "Personal Development"
+  },
+  {
+    "name": "Finances",
+    "description": "Money and financial concerns",
+    "level": "main"
+  },
+  {
+    "name": "Saving",
+    "description": "Subtopic of Finances",
+    "level": "sub",
+    "parent": "Finances"
+  },
+  {
+    "name": "Investing",
+    "description": "Subtopic of Finances",
+    "level": "sub",
+    "parent": "Finances"
+  },
+  {
+    "name": "Debt",
+    "description": "Subtopic of Finances",
+    "level": "sub",
+    "parent": "Finances"
+  },
+  {
+    "name": "Financial Planning",
+    "description": "Subtopic of Finances",
+    "level": "sub",
+    "parent": "Finances"
+  },
+  {
+    "name": "Income",
+    "description": "Subtopic of Finances",
+    "level": "sub",
+    "parent": "Finances"
+  },
+  {
+    "name": "Education",
+    "description": "Learning and academic development",
+    "level": "main"
+  },
+  {
+    "name": "Formal Education",
+    "description": "Subtopic of Education",
+    "level": "sub",
+    "parent": "Education"
+  },
+  {
+    "name": "Skills Development",
+    "description": "Subtopic of Education",
+    "level": "sub",
+    "parent": "Education"
+  },
+  {
+    "name": "Continuous Learning",
+    "description": "Subtopic of Education",
+    "level": "sub",
+    "parent": "Education"
+  },
+  {
+    "name": "Recreation",
+    "description": "Leisure activities and hobbies",
+    "level": "main"
+  },
+  {
+    "name": "Hobbies",
+    "description": "Subtopic of Recreation",
+    "level": "sub",
+    "parent": "Recreation"
+  },
+  {
+    "name": "Travel",
+    "description": "Subtopic of Recreation",
+    "level": "sub",
+    "parent": "Recreation"
+  },
+  {
+    "name": "Entertainment",
+    "description": "Subtopic of Recreation",
+    "level": "sub",
+    "parent": "Recreation"
+  },
+  {
+    "name": "Sports",
+    "description": "Subtopic of Recreation",
+    "level": "sub",
+    "parent": "Recreation"
+  },
+  {
+    "name": "Arts",
+    "description": "Subtopic of Recreation",
+    "level": "sub",
+    "parent": "Recreation"
+  }
+]

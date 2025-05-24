@@ -1,0 +1,69 @@
+Session 15/24
+Date: August 14, 2025
+Time: 02:00 PM
+Client: Lina (Freelance Developer)
+Professional: Riley Chen (Executive Function & ADHD Coach)
+
+[02:00] Riley: Hi Lina! Great to see you again. How’s your week been since our last session? Any wins or surprises?
+
+[02:03] Lina: Hey Riley! Thanks, yeah, it’s been a bit of a rollercoaster. I managed to stick to my new morning routine a few days, but then I totally got distracted yesterday and skipped my afternoon work block. Ugh.
+
+[02:07] Riley: That’s totally normal—especially with ADHD. It’s not about perfection, but about noticing patterns and making small adjustments. Can you tell me what your routine looked like those days when you stuck to it? 
+
+[02:10] Lina: Sure. I woke up at 7:30, did some quick stretching, then started working around 8:00. I planned to do a focused two-hour work session, then break for lunch. But yesterday, I got sidetracked by some social media notifications, and next thing I knew, it was 2 PM, and I hadn’t done any work.
+
+[02:15] Riley: Ah, those notifications can be sneaky! It sounds like your initial routine was solid—you just got derailed. Did you notice what pulled you in that time? Was it the notifications, or was there a different trigger?
+
+[02:18] Lina: Mostly the notifications, yeah. I think I need better external reminders so I don’t get sucked in. Also, sometimes I feel overwhelmed when I look at my entire task list—like, I don’t know where to start.
+
+[02:22] Riley: That’s a common challenge—task paralysis. So, maybe the key is breaking your work into smaller, more manageable chunks? We can try a system where you chunk tasks into 15-minute pieces, and use timers or alarms to keep you on track.
+
+[02:26] Lina: Yeah, I think that could help. I’ve heard of Pomodoro timers, but I’ve never really used them consistently.
+
+[02:29] Riley: Great! Let’s set up a gamified system around that. For example, every successful 15-minute focus session earns you a point, and after four points, you get a small reward—like a quick walk or a favorite snack. Does that sound motivating?
+
+[02:33] Lina: Totally. I like the idea of earning rewards. It makes it feel more fun, not just a chore.
+
+[02:36] Riley: Awesome. And to address the notifications, what if we set specific "distraction-free" periods with external reminders? Like, a dedicated “Focus Block” with a timer that silences notifications and reminds you to stay on task.
+
+[02:40] Lina: Yeah, I can do that. Maybe I can also use my phone’s Do Not Disturb mode during those blocks. I think that’ll help.
+
+[02:43] Riley: Perfect. Let’s also revisit your work schedule. You mentioned that your start times are inconsistent. How about we create a flexible but structured daily routine that includes time blocks for different tasks—coding, admin, breaks?
+
+[02:47] Lina: That makes sense. I tend to work late into the night sometimes, and then I’m tired the next day. Maybe I should aim for a consistent start time, like 8:30 or 9:00, and set boundaries around that.
+
+[02:51] Riley: Exactly. Consistency helps your brain anticipate what’s coming next, reducing decision fatigue. We can build a simple weekly template in Notion that shows your core work blocks, buffer time, and breaks. Would you like me to send you a starter template for that?
+
+[02:55] Lina: Yes, please! That would be really helpful. I think seeing it laid out will make it easier to stick to.
+
+[02:58] Riley: Great. Now, how are you feeling about your energy levels? Do you notice times when you’re more focused or more prone to distraction?
+
+[03:02] Lina: Hmm, I usually feel more energized in the mornings, but around 3 or 4 PM, I hit a slump. That’s when I often get distracted or lose focus.
+
+[03:05] Riley: Noticing your energy dips is key. We can plan to do your most demanding tasks during your high-energy windows and reserve lighter or administrative tasks for the slump times. Also, short movement breaks or quick energizers during those low points can help.
+
+[03:09] Lina: That sounds good. I think I’ll try a quick stretch or a walk when I start feeling sluggish.
+
+[03:12] Riley: Excellent. And let’s talk about your project deadlines. How are you managing those right now?
+
+[03:15] Lina: Honestly, it’s a bit chaotic. I tend to procrastinate until the last minute, then scramble. I want to get better at planning ahead and breaking projects into smaller milestones.
+
+[03:19] Riley: That’s a wise approach. We can implement a milestone system where each project is divided into weekly goals, with clear, achievable tasks. I can help you set up a visual tracker in Notion that shows your progress and upcoming deadlines.
+
+[03:23] Lina: I like that. Seeing progress visually might motivate me to stay on top.
+
+[03:26] Riley: Exactly. And we can review your progress in our weekly check-ins, celebrating your wins and adjusting as needed.
+
+[03:29] Lina: Sounds good. I already feel a bit more optimistic just talking about these strategies.
+
+[03:32] Riley: That’s fantastic. Remember, progress isn’t linear—celebrating small wins keeps you motivated. Before we wrap up, any other concerns or areas you want to focus on next time?
+
+[03:36] Lina: Maybe I’d like to work on managing my energy better during the day and dealing with overwhelm when I have multiple projects at once.
+
+[03:40] Riley: Great focus. We can explore some energy regulation techniques and prioritization methods next time. For now, your action items are: set up your Notion template, start using a Pomodoro timer with points and rewards, and try your new boundary routines with notifications and fixed start times.
+
+[03:45] Lina: Got it. Thanks, Riley. This feels really actionable.
+
+[03:48] Riley: You’re welcome! I’m excited to see how these small changes start to make a difference. We’ll check in on your progress next week. Have a great week ahead, Lina!
+
+[03:50] Lina: Thanks! Talk soon!

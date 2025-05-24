@@ -1,0 +1,69 @@
+Session 8/24
+Date: June 25, 2025
+Time: 10:00 AM
+Client: Evan (Senior DevOps Engineer)
+Professional: Dr. Serena Bianchi (Couples & Family Therapist)
+
+[10:00] Dr. Bianchi: Good morning, Evan. It's good to see you again. How have you been since our last session?
+
+[10:03] Evan: Hi, Serena. Thanks. Honestly, it's been a bit of a mixed bag. Work’s been stressful, and caring for my dad is taking a toll. But I’ve tried to implement some of the strategies we discussed last time, so that’s helped a little.
+
+[10:05] Dr. Bianchi: That’s good to hear you’re experimenting with the strategies. Can you tell me more about what’s been most challenging this week?
+
+[10:07] Evan: Well, balancing my on-call work and my dad’s needs is tough. Last night, I had an alert at 2 AM about a system issue, and I had to stay up to fix it. Meanwhile, my dad was calling me repeatedly because he was confused about his medication. I felt pulled in two directions.
+
+[10:09] Dr. Bianchi: That sounds incredibly stressful—being pulled between work demands and caregiving at such odd hours. How did you handle that moment?
+
+[10:11] Evan: I tried to stay calm, but I felt overwhelmed. I think I snapped at him a little, which made me feel guilty afterward. I just wish I could be more present for both.
+
+[10:13] Dr. Bianchi: It’s understandable to feel overwhelmed in that situation. You’re managing a lot. Let’s explore that moment. What emotions did you notice in yourself during the call with your dad?
+
+[10:15] Evan: I felt anxious, frustrated, and a bit helpless. Like I was failing at both roles—work and being there for him.
+
+[10:17] Dr. Bianchi: Those are very natural feelings given your circumstances. Remember, in our previous sessions, we discussed the importance of recognizing and validating these emotions. How have you been practicing that?
+
+[10:19] Evan: I’ve been trying to sit with my feelings more, especially when I notice stress building up. I’ve also started journaling a bit, just to get everything out.
+
+[10:21] Dr. Bianchi: That’s a meaningful step. Journaling can help you process and identify patterns. Considering your current stressors, have you thought about building a support system to share some of this burden?
+
+[10:23] Evan: I have. I talked to my sister last week, and she’s willing to help out more. Also, I reached out to a support group for caregivers, but I haven’t joined yet.
+
+[10:25] Dr. Bianchi: That’s promising. Strengthening your support network can make a significant difference. How do you feel about delegating some caregiving tasks or scheduling regular times for yourself?
+
+[10:27] Evan: I know I need to. I’ve started scheduling short breaks during the day, even just 10 minutes to breathe or walk outside. It helps, but I often feel guilty taking that time.
+
+[10:29] Dr. Bianchi: Guilt is common among caregivers, but self-care isn’t selfish—it’s necessary. Remember, by tending to your well-being, you're better equipped to support your dad and handle work. Have you thought about setting boundaries with your work, like specific times when you're unavailable?
+
+[10:31] Evan: Yes, I’ve been considering that. My team is understanding, but I worry about appearing unreliable. I haven't set firm boundaries yet, though.
+
+[10:33] Dr. Bianchi: Establishing boundaries can be empowering. Maybe start by communicating your availability clearly and sticking to it. It can reduce some on-call stress. How does that feel to you?
+
+[10:35] Evan: It sounds doable. I think I just need to be more assertive about my limits.
+
+[10:37] Dr. Bianchi: That’s a good insight. As we’ve discussed before, setting boundaries supports your mental health and your capacity to care for others. Now, about your self-care routine—what activities bring you some relief or joy?
+
+[10:39] Evan: I enjoy listening to music, playing guitar when I have time, and taking short walks. But I often skip these when I’m busy or stressed.
+
+[10:41] Dr. Bianchi: It’s common to put self-care aside during busy times. Perhaps scheduling those activities into your week as non-negotiable appointments could help. Even brief moments of joy can replenish your energy.
+
+[10:43] Evan: That makes sense. I’ll try to block out some time for music and walks.
+
+[10:45] Dr. Bianchi: Excellent. It’s about creating sustainable habits. Also, I want to revisit your work on the shared timeline we created last session—how has tracking your stress levels during the week helped?
+
+[10:47] Evan: It’s been insightful. I noticed my stress spikes after long work hours and when I don’t get a chance to connect with my support system. Recognizing these patterns helps me plan better.
+
+[10:49] Dr. Bianchi: That’s a valuable awareness. It indicates where to focus your self-care and boundary-setting efforts. Now, moving forward, what goals would you like to set for the next week?
+
+[10:51] Evan: I want to establish a firm work boundary—no work emails after 6 PM—and schedule at least three 10-minute self-care breaks daily. Also, I’ll follow up with the caregiver support group.
+
+[10:53] Dr. Bianchi: Those are clear, achievable goals. How confident are you in implementing them?
+
+[10:55] Evan: I’d say about 7 out of 10. I think I can do it, especially with some accountability.
+
+[10:57] Dr. Bianchi: Great. We’ll check in on these in our next session. Remember, change takes time, and every small step counts. Are there any other concerns or topics you'd like to address today?
+
+[10:59] Evan: Not right now. I feel more focused and hopeful after our talk. Thanks, Serena.
+
+[11:00] Dr. Bianchi: I’m glad to hear that, Evan. Keep practicing those self-care strategies, and don’t hesitate to reach out if you need support before our next meeting. See you next week.
+
+[11:02] Evan: Thanks. See you then.

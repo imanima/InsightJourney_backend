@@ -1,0 +1,57 @@
+Session 18/24
+Date: September 04, 2025
+Time: 02:00 PM
+Client: Lina (Freelance Developer)
+Professional: Riley Chen (Executive Function & ADHD Coach)
+
+[02:00] Riley: Hi Lina! Great to see you again. How has your week been? Any wins or challenges you'd like to start with today?
+
+[02:02] Lina: Hey Riley! Thanks. Honestly, it’s been a bit of a rollercoaster. I managed to finish a couple of smaller projects, which feels good. But I also got overwhelmed trying to juggle client deadlines—it’s like my brain just freezes sometimes when I look at the big list.
+
+[02:05] Riley: That’s totally normal, especially with those big lists. It sounds like you're making progress on some fronts but feeling stuck on others. Did you try any of the time management techniques we discussed last time—like breaking tasks into smaller chunks or using your external reminders?
+
+[02:07] Lina: Yeah, I did. I set up some Notion templates for task chunking, and I used my AI assistant to remind me about deadlines. It helped a bit, but I still find myself procrastinating, especially when I get distracted or feel overwhelmed.
+
+[02:10] Riley: That’s a common challenge. Sometimes, when tasks feel big, our brain wants to avoid them altogether. Let’s explore that a bit—what kind of tasks tend to trigger your task paralysis the most? Is it certain kinds of projects or specific stages?
+
+[02:12] Lina: Mostly it’s when I have to start something new, especially if it’s a complex feature or a tricky bug. I stare at my screen, and my mind just goes blank. It’s like I don’t know where to begin.
+
+[02:15] Riley: That makes sense. Starting is often the hardest part. Have you tried the “Pomodoro” technique or setting very small initial steps to lower the barrier? For example, just opening the file or reviewing the bug report without worrying about fixing it right away?
+
+[02:17] Lina: I’ve heard of Pomodoro, but I haven’t really used it systematically. I usually just try to work straight through, which leads to burnout or distraction.
+
+[02:20] Riley: Let’s experiment with a tailored version. How about we set a goal for your next task: just spend 5 minutes reviewing the bug report—no pressure to fix anything yet. Then, after that, you can decide if you want to continue or take a break. Does that sound manageable?
+
+[02:22] Lina: Yeah, I think I can do that. It feels less intimidating.
+
+[02:25] Riley: Great! And remember, the key is to reduce that initial resistance. Sometimes, just that first step can build momentum. Also, I noticed you mentioned energy dips during the day. How’s your energy today?
+
+[02:27] Lina: Honestly, a bit low. I woke up tired and had trouble getting started this morning. I think I didn’t sleep well.
+
+[02:30] Riley: Sleep quality can definitely impact focus and motivation. Do you have a routine to wind down at night? Maybe incorporating some calming activities before bed could help improve your sleep.
+
+[02:32] Lina: Not consistently. I usually just scroll through my phone until I’m too tired to stay awake.
+
+[02:35] Riley: That’s common, but it can interfere with sleep quality. Let’s set a small goal: tonight, try putting your phone away 30 minutes before bed and do a relaxing activity—like reading or some gentle stretching. How does that sound?
+
+[02:37] Lina: That sounds doable. I’ll try it tonight.
+
+[02:40] Riley: Excellent. Also, regarding your energy levels during the day, do you notice any patterns? Are there times when you feel more alert or more sluggish?
+
+[02:42] Lina: I usually feel more energetic in the late morning, around 10 or 11, but after lunch, I tend to crash.
+
+[02:45] Riley: Perfect. We can plan your most demanding tasks for your peak alert times. How about blocking out your deep work sessions during late morning, and reserving lighter tasks for early afternoon or late afternoon?
+
+[02:47] Lina: That makes sense. I think I can do that. I’ll try scheduling my coding work during those hours.
+
+[02:50] Riley: Awesome. Let’s check in on your progress next week. Before we wrap up today, I want to hear about any specific goals or habits you want to focus on for the coming week.
+
+[02:52] Lina: I want to stick to my new habit of reviewing the bug report for 5 minutes before I start working, and also try that sleep routine tonight.
+
+[02:55] Riley: Great goals. I’ll update your habit tracker to include the evening wind-down, and we’ll review your task chunking progress next session. Remember, small consistent steps lead to big change.
+
+[02:57] Lina: Thanks, Riley. I feel more focused just talking about this. It helps to have a plan.
+
+[02:59] Riley: I’m glad to hear that. You’re doing fantastic work, Lina. Keep experimenting, and we’ll keep refining your system. See you next week!
+
+[03:00] (End of session)

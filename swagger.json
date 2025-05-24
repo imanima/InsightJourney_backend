@@ -1,0 +1,1235 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Insight Journey API",
+    "description": "REST API for the Insight Journey coaching analysis platform",
+    "version": "1.0.0"
+  },
+  "schemes": ["http", "https"],
+  "basePath": "/api/v1",
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json", "audio/*"],
+  "securityDefinitions": {
+    "cookieAuth": {
+      "type": "apiKey",
+      "in": "cookie",
+      "name": "session"
+    }
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "User login",
+        "description": "Authenticates a user and creates a session",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "credentials",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginCredentials"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "User registration",
+        "description": "Creates a new user account",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegistrationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Registration successful",
+            "schema": {
+              "$ref": "#/definitions/RegistrationResponse"
+            }
+          },
+          "409": {
+            "description": "Email already exists",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "summary": "Logout",
+        "description": "Ends the current user session",
+        "tags": ["Authentication"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout successful",
+            "schema": {
+              "$ref": "#/definitions/MessageResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Current user",
+        "description": "Returns the currently authenticated user's information",
+        "tags": ["Authentication"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "get": {
+        "summary": "Get all sessions",
+        "description": "Retrieves all sessions for the authenticated user",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of sessions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Session"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create session",
+        "description": "Creates a new session with an audio recording",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "Audio file",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "Session title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "formData",
+            "description": "Session date (YYYY-MM-DD)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "client_name",
+            "in": "formData",
+            "description": "Client name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "notes",
+            "in": "formData",
+            "description": "Session notes",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session created",
+            "schema": {
+              "$ref": "#/definitions/Session"
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}": {
+      "get": {
+        "summary": "Get session",
+        "description": "Retrieves a specific session by ID",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "description": "ID of the session to retrieve",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session details",
+            "schema": {
+              "$ref": "#/definitions/Session"
+            }
+          },
+          "404": {
+            "description": "Session not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete session",
+        "description": "Deletes a session and its associated files",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "description": "ID of the session to delete",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session deleted",
+            "schema": {
+              "$ref": "#/definitions/MessageResponse"
+            }
+          },
+          "404": {
+            "description": "Session not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/upload": {
+      "post": {
+        "summary": "Upload session recording",
+        "description": "Uploads a recording file for a session",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recording uploaded successfully",
+            "schema": {
+              "$ref": "#/definitions/UploadResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid file",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/recording": {
+      "get": {
+        "summary": "Get session recording",
+        "description": "Retrieves the recording file for a session",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audio file",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Recording not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete session recording",
+        "description": "Deletes the recording file for a session",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recording deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/MessageResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Recording not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/analyze": {
+      "get": {
+        "summary": "Analyze session",
+        "description": "Analyzes the session transcript and returns results without saving to Neo4j",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analysis results",
+            "schema": {
+              "$ref": "#/definitions/AnalysisResults"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Session not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/save-analysis": {
+      "post": {
+        "summary": "Save analysis to Neo4j",
+        "description": "Saves the analysis results to Neo4j graph database",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "analysis_data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AnalysisResults"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analysis saved successfully",
+            "schema": {
+              "$ref": "#/definitions/MessageResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Session not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/analysis": {
+      "get": {
+        "summary": "Get session analysis",
+        "description": "Retrieves the analysis results for a session",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analysis results",
+            "schema": {
+              "$ref": "#/definitions/AnalysisResults"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Analysis not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session_id}/elements": {
+      "get": {
+        "summary": "Get session elements",
+        "description": "Retrieves the structured elements from a session's analysis",
+        "tags": ["Sessions"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session elements",
+            "schema": {
+              "$ref": "#/definitions/SessionElements"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Session not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/settings": {
+      "get": {
+        "summary": "Get admin settings",
+        "description": "Retrieves the current admin settings",
+        "tags": ["Admin"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Admin settings",
+            "schema": {
+              "$ref": "#/definitions/AdminSettings"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update admin settings",
+        "description": "Updates the admin settings",
+        "tags": ["Admin"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "settings",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminSettings"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Settings updated successfully",
+            "schema": {
+              "$ref": "#/definitions/MessageResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/analysis-elements": {
+      "get": {
+        "summary": "Get analysis elements",
+        "description": "Retrieves all available analysis elements",
+        "tags": ["Admin"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of analysis elements",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AnalysisElement"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "summary": "List users",
+        "description": "Retrieves all users (admin only)",
+        "tags": ["Admin"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/users/{user_id}": {
+      "put": {
+        "summary": "Update user role",
+        "description": "Updates a user's role (admin only)",
+        "tags": ["Admin"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "user_data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "schema": {
+              "$ref": "#/definitions/MessageResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user",
+        "description": "Deletes a user (admin only)",
+        "tags": ["Admin"],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/MessageResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "System health",
+        "description": "Returns the current system health status",
+        "tags": ["System"],
+        "responses": {
+          "200": {
+            "description": "Health status",
+            "schema": {
+              "$ref": "#/definitions/HealthResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LoginCredentials": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      },
+      "required": ["email", "password"]
+    },
+    "LoginResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "RegistrationRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      },
+      "required": ["name", "email", "password"]
+    },
+    "RegistrationResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "is_admin": {
+          "type": "boolean"
+        },
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "client_name": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "file_path": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AnalysisResults": {
+      "type": "object",
+      "properties": {
+        "insights": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actionitems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sentiment": {
+          "type": "string"
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "elements": {
+          "$ref": "#/definitions/SessionElements"
+        }
+      }
+    },
+    "AnalysisStatus": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "AdminSettings": {
+      "type": "object",
+      "properties": {
+        "max_sessions": {
+          "type": "integer"
+        },
+        "max_duration": {
+          "type": "integer"
+        },
+        "allowed_file_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "analysis_elements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AnalysisElement"
+          }
+        }
+      }
+    },
+    "AnalysisElement": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "format_template": {
+          "type": "string"
+        },
+        "system_instructions": {
+          "type": "string"
+        },
+        "analysis_instructions": {
+          "type": "string"
+        }
+      }
+    },
+    "SessionElements": {
+      "type": "object",
+      "properties": {
+        "emotions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EmotionElement"
+          }
+        },
+        "contexts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContextElement"
+          }
+        },
+        "actionitems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PracticeElement"
+          }
+        },
+        "challenges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChallengeElement"
+          }
+        },
+        "commitments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommitmentElement"
+          }
+        },
+        "insights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InsightElement"
+          }
+        }
+      }
+    },
+    "EmotionElement": {
+      "type": "object",
+      "properties": {
+        "emotion": {
+          "type": "string"
+        },
+        "intensity": {
+          "type": "integer"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        }
+      }
+    },
+    "ContextElement": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "belief": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      }
+    },
+    "PracticeElement": {
+      "type": "object",
+      "properties": {
+        "practice": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "frequency": {
+          "type": "string"
+        },
+        "related_insight": {
+          "type": "string"
+        }
+      }
+    },
+    "ChallengeElement": {
+      "type": "object",
+      "properties": {
+        "challenge": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "impact": {
+          "type": "string"
+        }
+      }
+    },
+    "CommitmentElement": {
+      "type": "object",
+      "properties": {
+        "commitment": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "due_date": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "InsightElement": {
+      "type": "object",
+      "properties": {
+        "insight": {
+          "type": "string"
+        },
+        "topic": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "implications": {
+          "type": "string"
+        },
+        "potential_practice": {
+          "type": "string"
+        }
+      }
+    },
+    "UploadResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "file_path": {
+          "type": "string"
+        }
+      }
+    },
+    "UserUpdate": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        }
+      }
+    },
+    "HealthResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "database": {
+          "type": "string"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "MessageResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+} 
+} 

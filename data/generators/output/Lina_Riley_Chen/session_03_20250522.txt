@@ -1,0 +1,65 @@
+Session 3/24
+Date: May 22, 2025
+Time: 02:00 PM
+Client: Lina (Freelance Developer)
+Professional: Riley Chen (Executive Function & ADHD Coach)
+
+[02:00] Riley: Hi Lina! Great to see you again. How has your week been since our last session? Any wins or challenges you'd like to start with?
+
+[02:03] Lina: Hey Riley! Thanks. Honestly, it’s been a bit of a rollercoaster. I managed to stick to my new morning routine a few days, but then I slipped back into my old habit of checking emails first thing. I feel like I’m making progress, but also hitting some setbacks.
+
+[02:06] Riley: That’s totally normal — progress isn’t linear. It’s good you’re noticing these patterns. Can you tell me more about what your morning routine looks like when you’re on track? Maybe we can identify what makes those days stick.
+
+[02:09] Lina: Sure. So, I usually wake up around 7:30, do some quick stretching, then spend about 15 minutes reviewing my tasks for the day in Notion. But sometimes I get distracted by notifications or end up scrolling social media, and then I start the day behind.
+
+[02:12] Riley: Ah, those notifications can be sneaky! It sounds like the key is minimizing those interruptions early on. Have you thought about setting up some external reminders or using a dedicated workspace to help you focus?
+
+[02:15] Lina: Yeah, I’ve considered that. Maybe I could put my phone in another room, but I also worry about missing important messages.
+
+[02:18] Riley: That’s a fair concern. Maybe we can set specific times during the day to check messages, so you’re not constantly interrupted. Also, I remember from last time that you’re interested in using time blocks. Would you like to explore how to structure your morning routine with dedicated focus periods?
+
+[02:21] Lina: Definitely. I think that could help. I’ve been trying to do deep work, but I get sidetracked easily. Time blocking sounds promising.
+
+[02:24] Riley: Great! Let’s try creating a simple time block for your mornings. For example, 7:30 to 7:45 could be your wake-up and stretching, then 7:45 to 8:00 for task review, followed by a 20-minute focused work session. How does that sound?
+
+[02:27] Lina: That sounds doable. I like the idea of having set chunks of focused time. It makes it less overwhelming.
+
+[02:30] Riley: Excellent! Remember, the goal is to turn these into habits. We can track your consistency with a habit score dashboard — I’ll send you a Notion template for that. Also, how are you feeling about your project deadlines? Any particular stress points?
+
+[02:33] Lina: Yeah, deadlines have been tricky. I tend to procrastinate until I feel the pressure, then scramble to finish. It’s stressful and usually last-minute.
+
+[02:36] Riley: That’s a common challenge. Let’s work on breaking projects into smaller, manageable chunks with mini-deadlines. For example, for a big project, you could set weekly milestones. Have you tried that before?
+
+[02:39] Lina: Not systematically. I usually just have one big deadline and try to push through.
+
+[02:42] Riley: How about we create a visual project map in Notion, with each task broken down, plus check-in points? That way, you can see your progress and stay motivated. Would you like me to help you set that up?
+
+[02:45] Lina: Yes, please. That would be helpful. I think seeing the smaller steps might make it less intimidating.
+
+[02:48] Riley: Perfect. Also, I remember you mentioned feeling overwhelmed sometimes. When that happens, what do you usually do?
+
+[02:51] Lina: Honestly, I tend to freeze — I stare at my screen, unsure where to start. It’s like my brain hits a wall.
+
+[02:54] Riley: That’s where task chunking and external reminders come in handy. When you feel stuck, try picking a small, specific task to start with, like opening your code editor or reviewing a single file. Sometimes just starting breaks the paralysis.
+
+[02:57] Lina: I like that. Making tasks more specific sounds less daunting.
+
+[03:00] Riley: Great. And for energy regulation, how are you feeling? Do you notice times of day when your focus is better or worse?
+
+[03:03] Lina: Definitely. I’m more alert in the late mornings, but by late afternoon, I get sluggish and distracted more easily.
+
+[03:06] Riley: That’s valuable info. We can plan to schedule your most demanding tasks during your peak energy times and lighter tasks for when you’re more tired. Would that help?
+
+[03:09] Lina: Yeah, I think optimizing my schedule around my energy levels could make a big difference.
+
+[03:12] Riley: Absolutely. Remember, these are systems you can tweak as you go. It’s all about finding what works best for you. Before we wrap up, let’s set some specific action items for next week.
+
+[03:15] Lina: Okay. I’ll try implementing the time blocks for my mornings, set up a project breakdown in Notion, and designate specific times to check messages.
+
+[03:18] Riley: Perfect. I’ll also send you a habit tracker dashboard and a sample project map template. How does that sound?
+
+[03:21] Lina: Sounds great. Thanks, Riley. I feel more confident about making these changes.
+
+[03:24] Riley: I’m glad to hear that! Remember, progress is about small steps. Keep track of your wins, no matter how tiny, and we’ll review how these systems are working next week. See you then!
+
+[03:26] Lina: Thanks! See you next time.

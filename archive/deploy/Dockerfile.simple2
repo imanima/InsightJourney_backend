@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install FastAPI and Uvicorn
+RUN pip install --no-cache-dir fastapi uvicorn
+
+# Create a simple hello world application
+RUN echo 'from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get("/")\ndef read_root():\n    return {"message": "Insight Journey API is running!"}\n\n@app.get("/api/v1/health")\ndef health():\n    return {"status": "healthy", "api_version": "1.0.0"}' > app.py
+
+# Set environment variables
+ENV PORT=8080
+ENV HOST=0.0.0.0
+
+# Expose port
+EXPOSE 8080
+
+# Run the application
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"] 

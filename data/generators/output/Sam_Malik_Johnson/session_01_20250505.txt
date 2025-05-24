@@ -1,0 +1,67 @@
+Session 1/24
+Date: May 05, 2025
+Time: 09:00 AM
+Client: Sam (Indie Game Developer)
+Professional: Malik Johnson (Narrative & Career Transition Coach)
+
+[09:00] Malik: Good morning, Sam. It's great to see you again. How have you been since our last session?
+
+[09:04] Sam: Hi Malik. Honestly, I've been feeling a bit stuck. I’ve been working on some new ideas for my game, but I keep hitting creative walls. It’s frustrating because I want to move forward, but I don’t know where to go next.
+
+[09:07] Malik: That sounds challenging. It’s good that you’re working on new ideas, though. Sometimes, creative blocks are signals that we need to pause and reflect. Can you tell me more about what these walls look like? Are they technical, conceptual, or emotional?
+
+[09:10] Sam: Mostly emotional, I think. I feel lonely, especially after splitting with my co-founder. I used to bounce ideas off him, and now I’m trying to do everything alone. It’s like I lost my creative partner, and I’m not sure how to fill that gap.
+
+[09:13] Malik: That’s a significant shift. Losing a collaborator can impact not just your workflow but also your sense of purpose and motivation. Let’s explore that feeling a bit. When you think about working alone now, what stories are you telling yourself about your abilities or your future projects?
+
+[09:16] Sam: Hmm. I guess I’m telling myself that I’m on my own now, and maybe I won’t be able to pull off something as good without him. That I’m less capable without my partner.
+
+[09:19] Malik: That’s a powerful narrative—feeling less capable without the team. These stories can sometimes hold us back more than external obstacles. How might you reframe this story? For example, what strengths or skills are you drawing on that you might overlook right now?
+
+[09:23] Sam: Well, I’ve always been pretty resilient. I’ve learned a lot on my own, especially since I’m self-taught. And I guess I’m pretty resourceful—I’ve contributed to open-source projects, and I’ve been experimenting with AI models lately.
+
+[09:26] Malik: Exactly. Those are significant strengths—resilience and resourcefulness. Let’s think of a story where you’re the hero who’s overcoming challenges through these qualities. How would that story go?
+
+[09:29] Sam: Hmm. Maybe I’m the hero who’s navigating uncharted territory, using my resilience to adapt and my resourcefulness to find new tools and ideas, even after losing my partner.
+
+[09:33] Malik: That’s a powerful narrative. It emphasizes your agency and adaptability. Now, considering your current creative block, what would it look like if you viewed this as a chapter in your hero’s journey—perhaps a moment of challenge that’s leading to growth?
+
+[09:36] Sam: That makes sense. Instead of seeing it as a failure, I could see it as a critical point where I’m developing new skills and perspectives. Maybe I’m setting the stage for the next big breakthrough.
+
+[09:39] Malik: Absolutely. Sometimes, the most profound growth comes from these difficult chapters. Let’s shift a bit and talk about your goals. You mentioned wanting to find a new creative direction and build a support network. Do you feel clear on what steps might get you there?
+
+[09:42] Sam: Not entirely. I think I need to reconnect with other developers or artists, maybe join some online communities, but I’m not sure where to start or how to approach it.
+
+[09:45] Malik: That’s a good starting point. Building a support network can feel overwhelming, but breaking it down into smaller steps might help. For example, identifying specific communities aligned with your interests, setting a goal to participate in discussions, or even attending virtual meetups. Would you like to brainstorm some specific communities or platforms?
+
+[09:49] Sam: Yeah, I’ve thought about Discord servers for indie developers, or maybe Reddit groups. I’ve also considered attending some game development webinars or online workshops, but I haven’t taken the plunge yet.
+
+[09:52] Malik: Those are excellent options. Perhaps a good next step is to pick one or two platforms and set a small goal, like commenting on a post or introducing yourself. How does that sound?
+
+[09:55] Sam: That sounds doable. I think I’ll start with a Discord server I found that focuses on indie game devs. I can aim to introduce myself this week.
+
+[09:59] Malik: Great plan. Now, shifting gears a bit—let’s look at your creative process. You mentioned earlier about working on new ideas. Can you tell me about a recent project or concept that excited you, even if briefly?
+
+[10:02] Sam: Actually, I was playing around with an idea for a puzzle-platformer that uses AI-generated narratives that change based on player choices. It’s still rough, but I got pretty excited thinking about how players could influence the story dynamically.
+
+[10:06] Malik: That sounds innovative and engaging. It also aligns with your technical skills and interests. What part of that project feels most energizing? And what might be holding you back?
+
+[10:09] Sam: The idea of creating a dynamic story system really excites me. But I feel a bit overwhelmed by how complex it might be to implement, especially since I’m mostly working alone now. Sometimes I doubt if I can pull it off.
+
+[10:13] Malik: That’s a common feeling when facing ambitious projects. Let’s reframe this—what’s a small, manageable step you could take towards developing that idea? Perhaps focusing on a prototype for one aspect, like the narrative variability?
+
+[10:16] Sam: Yeah, I could start by scripting a few different story branches and see how they interact. Maybe build a simple demo to test the concept.
+
+[10:19] Malik: That sounds like a strong, achievable step. It leverages your strengths and keeps the project moving without feeling overwhelming. Also, celebrating small wins like this can boost your confidence.
+
+[10:22] Sam: I like that. Breaking it down makes it less intimidating. I think I’ll set a goal to develop a basic demo this month.
+
+[10:25] Malik: Excellent. To wrap up, let’s outline some action items for this week: First, introduce yourself in that Discord community; second, sketch out a simple prototype for your narrative system; and third, reflect on your resilience and resourcefulness, recognizing how these qualities are guiding your journey.
+
+[10:29] Sam: Sounds good. I feel more focused already. Thanks, Malik.
+
+[10:32] Malik: You're welcome, Sam. Remember, your story is one of resilience and ingenuity. I look forward to hearing about your progress next week. Any last thoughts or questions before we finish?
+
+[10:35] Sam: No, I think I’m good for now. Thanks again. I’ll see you next week.
+
+[10:37] Malik: Great. Have a productive week, Sam. Take care.

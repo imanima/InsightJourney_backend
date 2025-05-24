@@ -1,0 +1,89 @@
+Session 5/24
+Date: June 05, 2025
+Time: 02:00 PM
+Client: Lina (Freelance Developer)
+Professional: Riley Chen (Executive Function & ADHD Coach)
+
+[02:00] Riley: Hey Lina! Great to see you again. How’s your week been since our last session? Any wins or surprises?
+
+[02:05] Lina: Hi Riley! Thanks. Hmm, it’s been okay. I did manage to stick to my morning routine a couple of days, but then I kind of slipped back into my old habits with some project deadlines. It’s like I get motivated and then… nothing. (sighs)
+
+[02:10] Riley: That’s totally normal, Lina. Sometimes our motivation dips, especially when facing big projects. Have you noticed what triggered the slip? Were you feeling overwhelmed or distracted?
+
+[02:15] Lina: Yeah, I think I was overwhelmed. I looked at my to-do list and it just felt massive. I froze, and then I ended up procrastinating on the hardest tasks.
+
+[02:20] Riley: That’s a common pattern—task paralysis when things feel too big. Let’s try a quick exercise. Remember our last session where we broke down tasks into smaller chunks? Do you think you could identify one small chunk from your current project now?
+
+[02:25] Lina: Hmm, okay. Well, one thing is setting up the backend environment. It’s a technical step I keep delaying.
+
+[02:30] Riley: Perfect! So, how about we define that as a mini-task? Maybe “install necessary tools and create a new project folder”? It sounds manageable, right?
+
+[02:35] Lina: Yeah, I think I can do that. I just need to set a timer for 15 minutes and focus on just that.
+
+[02:40] Riley: Exactly! Time blocking can be your best friend here. Have you been using your calendar or any task management system to plan these blocks?
+
+[02:45] Lina: I’ve been trying. I use Notion and my digital calendar, but I often forget to actually schedule the blocks or I don’t stick to them.
+
+[02:50] Riley: That’s a common challenge. Let’s make it more visual. How about creating a simple “Focus Block” template in Notion with preset times? You can drag and drop tasks into it. Would that help?
+
+[02:55] Lina: Yeah, I like that. It would make it easier to see when I’m supposed to work on something. Also, I think I need external reminders—like alarms or notifications—to keep me accountable.
+
+[03:00] Riley: Great idea. You could set a recurring alarm on your phone or use a Pomodoro timer with alarms. Speaking of energy, how have you been feeling physically and mentally? Any patterns there?
+
+[03:05] Lina: Honestly, my energy dips after lunch, and I find it hard to focus in the afternoons. Sometimes I just scroll social media for hours without realizing it.
+
+[03:10] Riley: That afternoon slump is classic, especially with ADHD. Let’s think about strategies to boost your alertness. Have you tried quick movement breaks or energy-boosting snacks?
+
+[03:15] Lina: Not really. I usually just sit through it. Maybe I could try a 5-minute stretch or walk.
+
+[03:20] Riley: Perfect! Incorporate a couple of these breaks into your schedule, especially after lunch. Also, consider a hydration or light snack to keep your energy steady.
+
+[03:25] Lina: Will do. (pauses) You know, I also struggle with remembering all my deadlines. I end up doing last-minute work, which stresses me out.
+
+[03:30] Riley: That’s a common challenge. Have you experimented with external reminders or deadline countdowns?
+
+[03:35] Lina: Not systematically. I’ve tried setting reminders, but I often snooze them or ignore them.
+
+[03:40] Riley: What if we set up a weekly “Deadline Review” session for you? Every Sunday evening, you review upcoming deadlines, update your progress, and adjust your schedule. Would that help?
+
+[03:45] Lina: Yeah, I think that could work. It would give me a clearer picture.
+
+[03:50] Riley: Great! And perhaps using a visual board—like a Kanban—could make deadlines more tangible. You could move tasks from “To Do” to “In Progress” to “Done” as you work on them.
+
+[03:55] Lina: I like that idea. I’ve used Kanban before, but I got lazy with updating it.
+
+[04:00] Riley: That’s okay. The key is consistency. Maybe set a recurring reminder to update your board during your weekly review. That way, it becomes part of your routine.
+
+[04:05] Lina: Sounds good. I’m also curious—how do I deal with my energy when I’m just not feeling motivated? Sometimes I just feel drained, and nothing seems to help.
+
+[04:10] Riley: When motivation wanes, external accountability can be a game-changer. Do you have a buddy or accountability partner you can check in with?
+
+[04:15] Lina: Not really. I usually work alone.
+
+[04:20] Riley: How about scheduling brief daily check-ins with me or someone else? Just a quick 5-minute chat to share what you’re working on and what you’ll do next. It can boost your energy and focus.
+
+[04:25] Lina: That might help. I think I need that external push sometimes.
+
+[04:30] Riley: Absolutely. And remember, it’s okay to have days where you need more rest. Recognizing your energy patterns helps you plan accordingly. For example, reserve lighter tasks for low-energy times.
+
+[04:35] Lina: That makes sense. I also want to get better at estimating how long tasks will take so I don’t get overwhelmed.
+
+[04:40] Riley: Excellent point. Today, let’s try a “time estimation” exercise. Pick one task from your backlog and estimate how long it should take, then track how long it actually takes when you do it.
+
+[04:45] Lina: Okay. I’ll try that with the backend setup.
+
+[04:50] Riley: Fantastic. That will give you data to improve your future estimates. Also, don’t forget to celebrate small wins—like completing your mini-tasks or sticking to your schedule.
+
+[04:55] Lina: I like that. It feels motivating.
+
+[05:00] Riley: Great! Before we wrap up, what’s the one thing you’re going to focus on before our next session?
+
+[05:05] Lina: I’ll set up my Notion focus blocks, schedule my weekly deadline review, and do the time estimation exercise for my backend task.
+
+[05:10] Riley: Awesome! I’ll also send you a quick checklist to help you with these steps. Keep in mind, progress is non-linear, so be gentle with yourself.
+
+[05:15] Lina: Thanks, Riley. I really appreciate the support. I’m feeling more optimistic about tackling my workload now.
+
+[05:20] Riley: That’s wonderful to hear. Remember, small consistent steps lead to big change. We’ll check in on these next week. Have a great rest of your day!
+
+[05:25] Lina: Thanks! Talk to you soon.

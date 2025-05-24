@@ -1,0 +1,55 @@
+Session 22/24
+Date: September 27, 2025
+Time: 11:00 AM
+Client: Diego (Data Science Master's Student)
+Professional: Dr. Harper Torres (Licensed Clinical Psychologist)
+
+[11:00] Dr. Torres: Hi Diego, good to see you again. How have things been since our last session? Any particular highlights or challenges you'd like to start with?
+
+[11:05] Diego: Hi, Dr. Torres. Overall, I think I’ve been managing a bit better. The stress about my research has eased somewhat, but I still feel pretty overwhelmed with the workload and social stuff. I’ve been trying to use some of the breathing exercises we discussed, though.
+
+[11:07] Dr. Torres: That’s great to hear you’ve been practicing the breathing exercises. How have they been working for you? Any noticeable difference when you use them during stressful moments?
+
+[11:10] Diego: Yeah, I think so. Yesterday, I had a really tough coding deadline, and I took a few deep breaths before starting. It helped me calm down enough to focus better. I still felt anxious, but it wasn’t as bad as before.
+
+[11:12] Dr. Torres: That’s a solid start. It’s common for these techniques to become more effective over time with consistent practice. Do you notice any particular triggers that tend to make your anxiety spike, especially related to your studies or social situations?
+
+[11:15] Diego: For studies, it’s mostly when I worry I won’t finish on time or if I think I’m falling behind compared to others. Socially, I get anxious when I have to meet new people or participate in group discussions. Sometimes I avoid them altogether.
+
+[11:17] Dr. Torres: Those are common concerns, especially with such high standards you set for yourself. Last time, we talked about cognitive restructuring to challenge the negative thoughts about falling behind or social judgment. Have you had a chance to practice that with any specific thoughts?
+
+[11:20] Diego: I tried to catch myself when I started thinking “I’m not good enough,” especially during research meetings. I replaced it with more balanced thoughts like “I’m still learning, and that’s okay.” It helps a little, but sometimes the old thoughts come back stronger.
+
+[11:22] Dr. Torres: That’s normal; changing thought patterns takes time. It’s encouraging that you’re catching them and practicing reframe. Remember, progress isn’t always linear. Let’s also explore some behavioral strategies today—like exposure—to help with social anxiety. How comfortable are you with gradually increasing social exposure?
+
+[11:25] Diego: Honestly, I’d like to get better at it. I’ve been avoiding group projects and social events around campus because I fear embarrassing myself.
+
+[11:27] Dr. Torres: That’s understandable. We can develop a step-by-step exposure plan tailored to your comfort level. For example, starting with small interactions, like saying hello to classmates, then moving toward participating in study groups. Would you be willing to try that?
+
+[11:30] Diego: Yeah, I think I can try that. I’d like to get more comfortable so I don’t feel so isolated.
+
+[11:32] Dr. Torres: Great. We’ll set some specific goals for that. Now, switching gears a bit—how’s your sleep been lately? Last time, we discussed sleep hygiene, and I’m curious if you’ve noticed any changes.
+
+[11:35] Diego: I’ve been trying to stick to a schedule, but my mind still races at night, especially when I have deadlines. I’ve been using the mindfulness exercises before bed, which helps a little, but I still wake up sometimes.
+
+[11:37] Dr. Torres: That’s progress. Remember, sleep issues often take time to resolve, especially when stress is involved. We can look into some additional techniques, like cognitive sleep restructuring, to challenge thoughts that keep you awake. Also, maintaining a consistent sleep schedule and limiting screen time before bed can help.
+
+[11:40] Diego: Yeah, I’ve been on my laptop late working on stuff. I’ll try to cut back on that.
+
+[11:42] Dr. Torres: Good plan. Consistency is key. Now, considering your goal to excel in research and prepare for industry, have you thought about any specific steps or skills you want to develop further?
+
+[11:45] Diego: I think I want to improve my automation skills, maybe learn more about building better data pipelines. I’ve been reading about AI tools that can help with research, but I’m not sure how to incorporate them into my workflow effectively.
+
+[11:48] Dr. Torres: That’s an excellent area to focus on. Integrating AI tools can boost your efficiency and make your work stand out. Perhaps setting a small project to automate part of your research process could be both practical and confidence-building. Would you be interested in exploring that as a future goal?
+
+[11:50] Diego: Definitely. I think that would help me feel more confident about my skills and future prospects.
+
+[11:52] Dr. Torres: Perfect. To summarize today: you’re noticing progress with stress management and some success with cognitive restructuring, and you’re open to gradually increasing social exposure. We’ll develop a specific exposure hierarchy next session. Also, sleep hygiene continues to improve, and I’ll send you some tailored sleep strategies. Lastly, your goal to incorporate AI into your research workflow is a great focus for the coming weeks.
+
+[11:55] Diego: Thanks, Dr. Torres. I feel more hopeful about tackling these challenges now.
+
+[11:57] Dr. Torres: That’s wonderful to hear. Remember, small, consistent steps lead to meaningful change. For next week, I’d like you to practice saying hello to at least one new person on campus and journal how it felt. Also, continue with your sleep and stress reduction routines. Does that sound doable?
+
+[11:59] Diego: Yes, I can do that. Thanks again for the support.
+
+[12:00] Dr. Torres: You’re very welcome. Looking forward to hearing about your progress. See you next week.

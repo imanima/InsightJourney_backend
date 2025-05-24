@@ -1,0 +1,59 @@
+Session 12/24
+Date: July 21, 2025
+Time: 09:00 AM
+Client: Sam (Indie Game Developer)
+Professional: Malik Johnson (Narrative & Career Transition Coach)
+
+[09:00] Malik: Good morning, Sam. It’s great to see you again. How have you been since our last session? Any noteworthy developments or feelings you'd like to share today?
+
+[09:05] Sam: Hey Malik, thanks. Honestly, it’s been a mixed bag. Some days I feel really stuck, especially with my latest project. But I also had a couple of moments where I managed to step back and reframe things, which helped a bit.
+
+[09:10] Malik: That’s good to hear. It sounds like you’re noticing some shifts, even if they’re small. Last time, we talked about your creative block and the feeling of loneliness after the split with your co-founder. How are those feelings holding up?
+
+[09:15] Sam: Yeah, the loneliness is still there, especially when I’m working late at night. The creative block, though, has been a bit different. I’ve been trying some new visualization exercises we discussed, and I think it’s helped me see my work from different angles. But I still feel pretty unsure about my next project direction.
+
+[09:20] Malik: That’s a really important observation. It’s great that the visualization exercises are giving you new perspectives. Can you tell me more about how you’ve been applying them? Any particular images or stories that stood out?
+
+[09:25] Sam: Well, I visualized my last game as a hero’s journey — you know, with the protagonist overcoming obstacles. It made me realize I’ve been approaching my projects as tasks to finish, not stories to tell. That shifted my thinking a bit.
+
+[09:30] Malik: I love that. Reframing your projects as stories can really open up new creative pathways. How does that perspective feel? Does it spark new ideas or energy for your current work?
+
+[09:35] Sam: It does, actually. I started sketching out a new concept — kind of a narrative-driven puzzle game. But then I hit another mental block about the mechanics, and I got stuck again.
+
+[09:40] Malik: That’s natural. Creative processes are often non-linear. Let’s explore the mechanics issue a bit. Have you thought about what resources or support might help you move past that hurdle?
+
+[09:45] Sam: Not really. I’ve been mostly working alone, and I don’t have a team to bounce ideas off. I guess I could look into online communities or maybe find a mentor, but I don’t even know where to start with that.
+
+[09:50] Malik: It’s completely understandable to feel unsure about building that support network. Remember, even small steps can help. For example, joining a Discord server for indie developers or participating in a game jam could connect you with peers. What do you think about setting a goal to reach out to one community this week?
+
+[09:55] Sam: That sounds doable. I think I can do that. It might help me break out of this isolation a bit.
+
+[10:00] Malik: Excellent. Building those connections can also serve as a source of ongoing inspiration and feedback. Now, considering your goal to find a new creative direction, what values or themes have you been reflecting on lately? Anything that feels particularly resonant?
+
+[10:05] Sam: Yeah, I keep coming back to the idea of storytelling — stories that empower or inspire. I want my games to have meaning, not just entertainment. That’s been a guiding principle.
+
+[10:10] Malik: That’s a powerful core value. When you align your projects with that, it can bring clarity and motivation. Have you thought about how to incorporate that into your next steps, beyond just the mechanics?
+
+[10:15] Sam: Maybe I could focus on stories that highlight resilience or community. Something that connects players emotionally and makes them think.
+
+[10:20] Malik: That’s a meaningful direction. Perhaps you can start by sketching out story arcs that embody those themes, then see how mechanics can support them. As part of your resource planning, do you have any tools or skills that could help you develop these narratives further?
+
+[10:25] Sam: I’ve been using some AI storytelling tools to draft ideas, and I’ve contributed to open-source narrative modules. I think I can leverage those more intentionally.
+
+[10:30] Malik: Great. Combining your technical skills with your storytelling focus can be a strong asset. Now, reflecting on our progress over the past sessions, what’s been most helpful for you so far?
+
+[10:35] Sam: Honestly, the hero’s journey mapping helped me see my work differently. Also, the idea of reframing setbacks as part of the story has made me more resilient.
+
+[10:40] Malik: That’s wonderful to hear. It shows how narrative techniques can foster resilience and clarity. As we look ahead, what’s one small, concrete action you want to commit to before our next session?
+
+[10:45] Sam: I’ll join at least one online developer community and try to introduce myself this week.
+
+[10:50] Malik: That’s a solid step. Remember, building your support network is a process, and each connection adds to your story of growth. Next time, we can explore how these new interactions influence your projects and further refine your creative direction. Any final thoughts or questions before we wrap up?
+
+[10:55] Sam: No, I think that covers it. Thanks, Malik. I feel more hopeful about moving forward.
+
+[10:57] Malik: I’m glad to hear that. Keep nurturing your story, and I look forward to hearing about your progress next week. Have a good week, Sam.
+
+[10:58] Sam: Thanks, you too. See you next time.
+
+[11:00] Malik: Bye for now.

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Self-Worth",
+    "description": "Beliefs about one's value"
+  },
+  {
+    "name": "World View",
+    "description": "Beliefs about how the world works"
+  },
+  {
+    "name": "Capability",
+    "description": "Beliefs about one's abilities"
+  },
+  {
+    "name": "Future",
+    "description": "Beliefs about what will happen"
+  },
+  {
+    "name": "Others",
+    "description": "Beliefs about other people"
+  },
+  {
+    "name": "Deservingness",
+    "description": "Beliefs about what one deserves"
+  },
+  {
+    "name": "Belonging",
+    "description": "Beliefs about fitting in with others"
+  },
+  {
+    "name": "Safety",
+    "description": "Beliefs about security and safety"
+  },
+  {
+    "name": "Control",
+    "description": "Beliefs about control over life events"
+  },
+  {
+    "name": "Purpose",
+    "description": "Beliefs about one's purpose in life"
+  }
+]

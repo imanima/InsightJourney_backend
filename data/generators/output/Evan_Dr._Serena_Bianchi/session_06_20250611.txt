@@ -1,0 +1,66 @@
+Session 6/24
+Date: June 11, 2025
+Time: 10:00 AM
+Client: Evan (Senior DevOps Engineer)
+Professional: Dr. Serena Bianchi (Couples & Family Therapist)
+
+**[10:00] Dr. Bianchi:** Good morning, Evan. It's nice to see you again. How have you been since our last session?  
+**[10:02] Evan:** Hi, Serena. Thanks. Honestly, it's been a bit of a mixed bag. Some days are better than others. The stress around my father's care is still pretty overwhelming, but I’ve tried to implement some of the breathing exercises we talked about.  
+
+**[10:05] Dr. Bianchi:** That’s good to hear you’re trying those techniques. It sounds like managing your stress remains a big challenge. Can you tell me more about how you’ve been feeling emotionally throughout the week?  
+
+**[10:07] Evan:** Yeah, I think I feel a constant weight. Sometimes I feel guilty for feeling tired or frustrated, especially because my dad needs so much attention. But I also feel guilty for not being able to focus fully at work, which adds to my stress.  
+
+**[10:10] Dr. Bianchi:** It sounds like you're carrying a lot—not only physically with caregiving but emotionally with guilt and frustration. That’s understandable, given the circumstances. Have you been able to notice any specific triggers that make you feel more overwhelmed?  
+
+**[10:12] Evan:** Definitely. When my dad has a bad day or gets agitated, I feel helpless, and that intensifies my stress. Also, on days when I have back-to-back meetings, I feel like I can't catch a break, and I start feeling more anxious.  
+
+**[10:15] Dr. Bianchi:** Those are very real triggers. It’s important to recognize how these moments impact you because that awareness is the first step towards managing them. Last time, we discussed the importance of building a support system. Have you been able to reach out to friends or family for help?  
+
+**[10:17] Evan:** I’ve tried to, but honestly, it’s hard. My sister lives out of town, and my friends are busy with their own stuff. I did talk to my partner about it, but she’s also overwhelmed with work and her own stuff. So, I end up feeling like I’m doing this alone a lot of the time.  
+
+**[10:20] Dr. Bianchi:** That sounds very isolating. It’s a common feeling among caregivers, but it’s good that you’re recognizing these limitations. We can work on ways to strengthen your support network, even if it’s just small, reliable contacts. Have you thought about creating a support map—listing people you can lean on or reach out to when needed?  
+
+**[10:22] Evan:** I haven’t done that explicitly, no. I suppose I could try. Sometimes I just forget who I can ask.  
+
+**[10:25] Dr. Bianchi:** That’s understandable. Let’s plan to do that together in our next session, so you have a clear visual of your support options. Today, I also want to focus on your self-care. You mentioned trying breathing exercises—how has that been going?  
+
+**[10:27] Evan:** It’s helped a little, especially when I remember to do it. I find that taking five minutes to breathe deeply or just step outside helps me calm down temporarily. But it’s hard to keep consistent with everything going on.  
+
+**[10:30] Dr. Bianchi:** Consistency is often the hardest part, especially with so many demands. Let’s explore some quick, practical self-care strategies you can integrate into your daily routine—things that don’t take much time but can make a difference. For example, brief mindfulness practices, or even setting boundaries around work hours.  
+
+**[10:32] Evan:** Yeah, I’ve been meaning to set some boundaries, like not checking emails after a certain time, but I often end up doing it anyway because I feel guilty leaving things unfinished.  
+
+**[10:35] Dr. Bianchi:** Guilt can be a powerful barrier. Remember, setting boundaries is a form of self-respect and necessary for sustainability. Perhaps we can develop a plan together to help you enforce those boundaries gently but firmly. How does that sound?  
+
+**[10:37] Evan:** That sounds good. I think I need some concrete steps because right now, I feel like I’m just trying to do everything without a real plan.  
+
+**[10:40] Dr. Bianchi:** Absolutely. We’ll create a simple boundary-setting plan. Also, I want to revisit your work-life balance. You’re doing a lot, and it’s clear that your job is demanding, especially with the infrastructure automation and system monitoring. How are you feeling about managing work stress lately?  
+
+**[10:42] Evan:** Honestly, I’m pretty exhausted. I’ve been on call more frequently, and the pressure to prevent incidents or outages makes me anxious. Sometimes I feel like I can’t switch off even when I’m home.  
+
+**[10:45] Dr. Bianchi:** That’s a common experience among tech professionals, especially in senior roles. It’s important to find ways to disconnect. Have you tried any specific strategies to create boundaries around work, like designated times or tech-free zones?  
+
+**[10:47] Evan:** I’ve set a cutoff time, usually around 7 PM, but I still check my phone or email after that because I worry about missing something. I know it’s not healthy, but the anxiety pushes me to do it.  
+
+**[10:50] Dr. Bianchi:** That’s very insightful. It’s natural to feel anxious about missing something, especially in your role. We can work on strategies to manage that anxiety—like designated "tech detox" periods or mindfulness exercises focused on acceptance of uncertainty. Would you be willing to practice a brief mindfulness exercise now, to help with that?  
+
+**[10:52] Evan:** Sure, I can try.  
+
+**[10:55] Dr. Bianchi:** Great. Let’s take a moment to do a quick breathing exercise. Close your eyes if you’re comfortable, and focus on your breath—inhale slowly through your nose, hold for a couple of seconds, then exhale gently through your mouth. (Pause) Notice the sensation of the air entering and leaving your body. If your mind wanders, gently bring it back to your breath.  
+
+**[10:58] Evan:** (Takes a deep breath) Okay, I feel a little calmer already.  
+
+**[10:59] Dr. Bianchi:** That’s wonderful. Remember, even a few minutes like this can help manage anxiety during stressful moments. For next steps, I’d like you to try incorporating this exercise into your daily routine, especially before bed or when you notice anxiety building.  
+
+**[11:00] Evan:** I can do that. It’s a good reminder that I don’t have to carry everything alone.  
+
+**[11:02] Dr. Bianchi:** Exactly. You’re making progress, Evan, even if it feels slow sometimes. Our ongoing focus will be on building sustainable routines and support systems that help you feel more balanced and less overwhelmed. Before we finish today, do you have any questions or topics you'd like to cover next week?  
+
+**[11:05] Evan:** I think just continuing to work on boundaries and support. Maybe some more techniques to handle work stress.  
+
+**[11:07] Dr. Bianchi:** Sounds good. I’ll prepare some strategies around that. And remember, small steps add up. You’re doing important work, and it’s okay to ask for help when you need it. I’ll see you next week, Evan.  
+
+**[11:09] Evan:** Thanks, Serena. I appreciate it.  
+
+**[11:10] Dr. Bianchi:** Take care, Evan. Have a good week.
