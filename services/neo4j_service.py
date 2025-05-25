@@ -763,7 +763,7 @@ class Neo4jService:
                         updated_at: $updated_at,
                         modified_by: $modified_by
                     }]->(e)
-                    RETURN e.id
+                    RETURN e.id as emotion_id
                 """,
                 session_id=session_id,
                 name=emotion_data['name'],
@@ -777,7 +777,10 @@ class Neo4jService:
                 updated_at=emotion_data['updated_at'],
                 modified_by=emotion_data.get('modified_by', 'system'))
                 
-                emotion_id = result.single()["e.id"]
+                record = result.single()
+                if not record:
+                    self.logger.error(f"Failed to create emotion for session {session_id}")
+                    return None
                 
                 # Create topic relationships if topics provided
                 for topic_name in topics:
@@ -825,7 +828,7 @@ class Neo4jService:
                         updated_at: $updated_at,
                         modified_by: $modified_by
                     }]->(i)
-                    RETURN i.id
+                    RETURN i.id as insight_id
                 """, 
                 session_id=session_id,
                 name=name,
@@ -839,7 +842,10 @@ class Neo4jService:
                 updated_at=insight_data['updated_at'],
                 modified_by=insight_data.get('modified_by', 'system'))
                 
-                insight_id = result.single()["i.id"]
+                record = result.single()
+                if not record:
+                    self.logger.error(f"Failed to create insight for session {session_id}")
+                    return None
                 
                 # Create topic relationships if topics provided
                 for topic_name in topics:
@@ -887,7 +893,7 @@ class Neo4jService:
                         updated_at: $updated_at,
                         modified_by: $modified_by
                     }]->(b)
-                    RETURN b.id
+                    RETURN b.id as belief_id
                 """,
                 session_id=session_id,
                 text=belief_data['text'],
@@ -901,7 +907,10 @@ class Neo4jService:
                 updated_at=belief_data['updated_at'],
                 modified_by=belief_data.get('modified_by', 'system'))
                 
-                belief_id = result.single()["b.id"]
+                record = result.single()
+                if not record:
+                    self.logger.error(f"Failed to create belief for session {session_id}")
+                    return None
                 
                 # Create topic relationships if topics provided
                 for topic_name in topics:
@@ -951,7 +960,7 @@ class Neo4jService:
                         updated_at: $updated_at,
                         modified_by: $modified_by
                     }]->(c)
-                    RETURN c.id
+                    RETURN c.id as challenge_id
                 """,
                 session_id=session_id,
                 name=name,
@@ -966,7 +975,10 @@ class Neo4jService:
                 updated_at=challenge_data['updated_at'],
                 modified_by=challenge_data.get('modified_by', 'system'))
                 
-                challenge_id = result.single()["c.id"]
+                record = result.single()
+                if not record:
+                    self.logger.error(f"Failed to create challenge for session {session_id}")
+                    return None
                 
                 # Create topic relationships if topics provided
                 for topic_name in topics:
@@ -1012,7 +1024,7 @@ class Neo4jService:
                         updated_at: $updated_at,
                         modified_by: $modified_by
                     }]->(a)
-                    RETURN a.id
+                    RETURN a.id as action_id
                 """, 
                 session_id=session_id,
                 action_data=action_data,
@@ -1024,7 +1036,10 @@ class Neo4jService:
                 updated_at=action_data['updated_at'],
                 modified_by=action_data.get('modified_by', 'system'))
                 
-                action_id = result.single()["a.id"]
+                record = result.single()
+                if not record:
+                    self.logger.error(f"Failed to create action item for session {session_id}")
+                    return None
                 
                 # Create topic relationships if topics provided
                 for topic_name in topics:
@@ -1544,6 +1559,15 @@ class Neo4jService:
         try:
             self.logger.info(f"Saving analysis for session {session_id}")
             
+            # Helper function to extract topic name from topic object or string
+            def extract_topic_name(topic):
+                if isinstance(topic, dict):
+                    return topic.get('name', 'Personal Growth')
+                elif isinstance(topic, str):
+                    return topic
+                else:
+                    return 'Personal Growth'
+            
             # 1. Update session with analysis status
             with self.driver.session() as session:
                 session.run("""
@@ -1559,11 +1583,17 @@ class Neo4jService:
             if "Emotions" in analysis_data:
                 for emotion in analysis_data["Emotions"]:
                     # Format: [name, intensity, context, topics]
+                    topics = emotion[3] if len(emotion) > 3 else []
+                    if isinstance(topics, list):
+                        topic_names = [extract_topic_name(t) for t in topics]
+                    else:
+                        topic_names = [extract_topic_name(topics)]
+                    
                     emotion_data = {
                         "name": emotion[0],  # name
                         "intensity": float(emotion[1]),  # intensity
                         "context": emotion[2],  # context
-                        "topics": [emotion[3]] if isinstance(emotion[3], str) else emotion[3],  # topics
+                        "topics": topic_names,
                         "user_id": user_id,
                         "isUserModified": False
                     }
@@ -1573,11 +1603,17 @@ class Neo4jService:
             if "Beliefs" in analysis_data:
                 for belief in analysis_data["Beliefs"]:
                     # Format: [id, name, text, impact, topics]
+                    topics = belief[4] if len(belief) > 4 else []
+                    if isinstance(topics, list):
+                        topic_names = [extract_topic_name(t) for t in topics]
+                    else:
+                        topic_names = [extract_topic_name(topics)]
+                    
                     belief_data = {
                         "name": belief[1],  # name
                         "text": belief[2],  # text
                         "impact": belief[3],  # impact
-                        "topics": [belief[4]] if isinstance(belief[4], str) else belief[4],  # topics
+                        "topics": topic_names,
                         "user_id": user_id,
                         "isUserModified": False
                     }
@@ -1587,11 +1623,17 @@ class Neo4jService:
             if "actionitems" in analysis_data:
                 for actionitem in analysis_data["actionitems"]:
                     # Format: [id, name, description, topics, status]
+                    topics = actionitem[3] if len(actionitem) > 3 else []
+                    if isinstance(topics, list):
+                        topic_names = [extract_topic_name(t) for t in topics]
+                    else:
+                        topic_names = [extract_topic_name(topics)]
+                    
                     action_data = {
                         "name": actionitem[1],  # name
                         "text": actionitem[2],  # description
                         "impact": "Action item identified from session analysis",
-                        "topics": [actionitem[3]] if isinstance(actionitem[3], str) else actionitem[3],  # topics
+                        "topics": topic_names,
                         "user_id": user_id,
                         "isUserModified": False,
                         "status": actionitem[4] if len(actionitem) > 4 else "hasn't started"  # status
@@ -1602,11 +1644,17 @@ class Neo4jService:
             if "Insights" in analysis_data:
                 for insight in analysis_data["Insights"]:
                     # Format: [name, text, context, topics]
+                    topics = insight[3] if len(insight) > 3 else []
+                    if isinstance(topics, list):
+                        topic_names = [extract_topic_name(t) for t in topics]
+                    else:
+                        topic_names = [extract_topic_name(topics)]
+                    
                     insight_data = {
                         "name": insight[0],  # name
                         "text": insight[1],  # text
                         "context": insight[2],  # context
-                        "topics": insight[3] if isinstance(insight[3], list) else [insight[3]],  # topics - fixed order
+                        "topics": topic_names,
                         "user_id": user_id,
                         "isUserModified": False
                     }
@@ -1616,11 +1664,17 @@ class Neo4jService:
             if "Challenges" in analysis_data:
                 for challenge in analysis_data["Challenges"]:
                     # Format: [name, text, impact, topics]
+                    topics = challenge[3] if len(challenge) > 3 else []
+                    if isinstance(topics, list):
+                        topic_names = [extract_topic_name(t) for t in topics]
+                    else:
+                        topic_names = [extract_topic_name(topics)]
+                    
                     challenge_data = {
                         "name": challenge[0],  # name
                         "text": challenge[1],  # text
                         "impact": challenge[2],  # impact
-                        "topics": challenge[3] if isinstance(challenge[3], list) else [challenge[3]],  # topics - fixed order
+                        "topics": topic_names,
                         "user_id": user_id,
                         "isUserModified": False,
                         "severity": "",  # Default empty severity
@@ -2019,71 +2073,101 @@ class Neo4jService:
         
         Args:
             session_id: ID of the session to update
-            elements: Dictionary containing extracted elements
+            elements: Dictionary containing extracted elements OR formatted analysis data
             user_id: ID of the user who owns the session
         
         Returns:
             bool: True if successful, False otherwise
         """
         try:
+            self.logger.info(f"Starting update_session_with_elements for session {session_id}")
+            self.logger.info(f"Elements received: {elements}")
+            
             # Verify session exists
             session = self.get_session_data(session_id)
             if not session:
                 self.logger.error(f"Session {session_id} not found")
                 return False
 
-            # Format elements for Neo4j
-            analysis_data = {}
+            # FIRST: Clear existing analysis elements for this session to prevent duplicates
+            self.logger.info(f"Clearing existing relationships for session {session_id}")
+            with self.driver.session() as session_db:
+                result = session_db.run("""
+                    MATCH (s:Session {id: $session_id})
+                    OPTIONAL MATCH (s)-[r:HAS_EMOTION]->(e:Emotion)
+                    OPTIONAL MATCH (s)-[r2:HAS_INSIGHT]->(i:Insight)
+                    OPTIONAL MATCH (s)-[r3:HAS_BELIEF]->(b:Belief)
+                    OPTIONAL MATCH (s)-[r4:HAS_CHALLENGE]->(c:Challenge)
+                    OPTIONAL MATCH (s)-[r5:HAS_ACTION_ITEM]->(a:ActionItem)
+                    DELETE r, r2, r3, r4, r5
+                    RETURN count(r) + count(r2) + count(r3) + count(r4) + count(r5) as deleted_relationships
+                """, session_id=session_id)
+                
+                deletion_result = result.single()
+                self.logger.info(f"Deleted {deletion_result['deleted_relationships']} relationships")
             
-            # Format emotions: [name, intensity, context, topic, timestamp]
-            if "emotions" in elements:
-                analysis_data["Emotions"] = [
-                    [e["name"], e["intensity"], e["context"], e.get("topic", None), e.get("timestamp", "")]
-                    for e in elements["emotions"]
-                ]
-            
-            # Format beliefs: [id, name, description, impact, topic, timestamp]
-            if "beliefs" in elements:
-                analysis_data["Beliefs"] = [
-                    [str(uuid.uuid4()), b["name"], b["description"], b["impact"], b.get("topic", None), b.get("timestamp", "")]
-                    for b in elements["beliefs"]
-                ]
-            
-            # Format action items: [id, name, description, topic, timestamp]
-            if "action_items" in elements:
-                analysis_data["actionitems"] = [
-                    [str(uuid.uuid4()), a["name"], a["description"], a.get("topic", None), a.get("status", "hasn't started")]
-                    for a in elements["action_items"]
-                ]
-            
-            # Format challenges: [name, text, impact, topic]
-            # Fix: Changed order to match expected format in save_session_analysis
-            if "challenges" in elements:
-                analysis_data["Challenges"] = [
-                    [c["name"], c.get("description", ""), c.get("impact", ""), c.get("topic", None)]
-                    for c in elements["challenges"]
-                ]
-            
-            # Format insights: [name, text, context, topic]
-            # Fix: Changed order to match expected format in save_session_analysis
-            if "insights" in elements:
-                analysis_data["Insights"] = [
-                    [i["name"], i.get("description", ""), i.get("context", ""), i.get("topic", None)]
-                    for i in elements["insights"]
-                ]
+            # Check if we're receiving already formatted analysis data or raw elements
+            if any(key in elements for key in ['Emotions', 'Beliefs', 'actionitems', 'Insights', 'Challenges']):
+                # Already formatted data from the analysis route
+                analysis_data = elements
+                self.logger.info("Using pre-formatted analysis data")
+            else:
+                # Raw elements from frontend, need to format
+                analysis_data = {}
+                
+                # Format emotions: [name, intensity, context, topic, timestamp]
+                if "emotions" in elements:
+                    analysis_data["Emotions"] = [
+                        [e["name"], e.get("intensity", 3), e.get("context", ""), e.get("topic", "Personal Growth")]
+                        for e in elements["emotions"]
+                    ]
+                    self.logger.info(f"Formatted {len(analysis_data['Emotions'])} emotions")
+                
+                # Format beliefs: [id, name, description, impact, topic, timestamp]
+                if "beliefs" in elements:
+                    analysis_data["Beliefs"] = [
+                        [str(uuid.uuid4()), b["name"], b.get("description", ""), b.get("impact", "Medium"), b.get("topic", "Personal Growth")]
+                        for b in elements["beliefs"]
+                    ]
+                    self.logger.info(f"Formatted {len(analysis_data['Beliefs'])} beliefs")
+                
+                # Format action items: [id, name, description, topic, status]
+                if "action_items" in elements:
+                    analysis_data["actionitems"] = [
+                        [str(uuid.uuid4()), a["name"], a.get("description", ""), a.get("topic", "Personal Growth"), a.get("status", "hasn't started")]
+                        for a in elements["action_items"]
+                    ]
+                    self.logger.info(f"Formatted {len(analysis_data['actionitems'])} action items")
+                
+                # Format challenges: [name, text, impact, topic]
+                if "challenges" in elements:
+                    analysis_data["Challenges"] = [
+                        [c["name"], c.get("description", ""), c.get("impact", "Medium"), c.get("topic", "Personal Growth")]
+                        for c in elements["challenges"]
+                    ]
+                    self.logger.info(f"Formatted {len(analysis_data['Challenges'])} challenges")
+                
+                # Format insights: [name, text, context, topic]
+                if "insights" in elements:
+                    analysis_data["Insights"] = [
+                        [i["name"], i.get("description", ""), i.get("context", ""), i.get("topic", "Personal Growth")]
+                        for i in elements["insights"]
+                    ]
+                    self.logger.info(f"Formatted {len(analysis_data['Insights'])} insights")
 
+            self.logger.info(f"Calling save_session_analysis with data: {analysis_data}")
             # Save analysis data and update session status
             success = self.save_session_analysis(session_id, analysis_data, user_id)
             if success:
-                print(f"Successfully updated session {session_id} with elements")
+                self.logger.info(f"Successfully updated session {session_id} with elements")
                 return True
             else:
-                print(f"Failed to update session {session_id} with elements")
+                self.logger.error(f"Failed to update session {session_id} with elements")
                 return False
                 
         except Exception as e:
-            print(f"Error updating session with elements: {str(e)}")
-            print(f"Error type: {type(e)}")
+            self.logger.error(f"Error updating session with elements: {str(e)}")
+            self.logger.error(f"Error type: {type(e)}")
             import traceback
             traceback.print_exc()
             return False

@@ -200,34 +200,32 @@ retry_openai = retry(
 def _ask_llm(prompt: str) -> str:
     log.info("Creating OpenAI client...")
     try:
+        # Initialize OpenAI client without proxy configuration to avoid issues
+        log.info("Attempting to initialize OpenAI client...")
         client = OpenAI(api_key=OPENAI_KEY)
+        log.info("OpenAI client created successfully")
+        
         log.info("Sending request to OpenAI...")
         try:
             response = client.chat.completions.create(
                 model=MODEL,
                 messages=[
-                    {"role": "system", "content": "You extract structured coaching elements."},
+                    {"role": "system", "content": "You are a helpful therapy analysis assistant that extracts structured insights from therapy session transcripts."},
                     {"role": "user", "content": prompt},
                 ],
                 max_tokens=1500,
-                temperature=0.5,
+                temperature=0.7,
             )
             log.info("Received response from OpenAI")
             return response.choices[0].message.content
         except Exception as e:
             log.error(f"Error in OpenAI API call: {str(e)}")
             raise
-    except TypeError as e:
-        # Handle proxies parameter error
-        if "unexpected keyword argument 'proxies'" in str(e):
-            log.warning("Detected proxies configuration issue with OpenAI client")
-            # Return a graceful response
-            return "Error: Unable to initialize OpenAI client due to proxy configuration issues."
-        else:
-            log.error(f"Error initializing OpenAI client: {str(e)}")
-            raise
     except Exception as e:
-        log.error(f"Error in OpenAI API call: {str(e)}")
+        log.error(f"Error initializing or calling OpenAI client: {str(e)}")
+        log.error(f"Exception type: {type(e)}")
+        log.error(f"Exception args: {e.args}")
+        # Instead of returning an error string, raise the exception so the system can handle it properly
         raise
 
 # ---------------------------------------------------------------------------
@@ -374,7 +372,11 @@ def analyze_transcript_and_extract(transcript: str, settings: Dict[str, Any] = N
             log.info("Successfully analyzed transcript")
         except Exception as e:
             log.error(f"Error analyzing transcript: {str(e)}")
-            raise
+            return {
+                "status": "failed",
+                "error": str(e),
+                "elements": {}
+            }
         
         # Extract elements
         try:
@@ -382,10 +384,21 @@ def analyze_transcript_and_extract(transcript: str, settings: Dict[str, Any] = N
             log.info("Successfully extracted elements")
         except Exception as e:
             log.error(f"Error extracting elements: {str(e)}")
-            raise
+            return {
+                "status": "failed", 
+                "error": str(e),
+                "elements": {}
+            }
         
-        return elements
+        return {
+            "status": "completed",
+            "elements": elements
+        }
         
     except Exception as e:
         log.error(f"Error in analyze_transcript_and_extract: {str(e)}")
-        raise
+        return {
+            "status": "failed",
+            "error": str(e),
+            "elements": {}
+        }

@@ -39,22 +39,9 @@ class TranscriptionService:
         # Initialize OpenAI client (with compatibility with different OpenAI versions)
         if OPENAI_KEY:
             try:
-                # Try with the modern API first
+                # Initialize OpenAI client without proxy configuration to avoid issues
                 self.client = OpenAI(api_key=OPENAI_KEY)
                 log.info("OpenAI client initialized successfully")
-            except TypeError as e:
-                log.warning(f"Initial OpenAI client init failed with TypeError: {str(e)}")
-                # If that fails due to unexpected arguments, try a simpler initialization
-                if "unexpected keyword argument" in str(e):
-                    try:
-                        # Fallback to the minimal initialization (just the API key)
-                        self.client = OpenAI(api_key=OPENAI_KEY)
-                        log.info("OpenAI client initialized with fallback method")
-                    except Exception as inner_e:
-                        log.error(f"Error initializing OpenAI client with fallback: {str(inner_e)}")
-                        self.client = None
-                else:
-                    self.client = None
             except Exception as e:
                 log.error(f"Error initializing OpenAI client: {str(e)}")
                 self.client = None

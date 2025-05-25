@@ -3,20 +3,57 @@ Analysis routes for the API.
 """
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import logging
 from datetime import datetime
-from services import get_neo4j_service
-from fastapi.responses import JSONResponse
-from routes.auth import User, oauth2_scheme
+import uuid
+from services import get_neo4j_service, get_session_service, get_auth_service
+from services.analysis_service import analyze_transcript_and_extract
+from services.session_service import SessionService
+from routes.auth import User
 from utils import get_current_user
+import jwt
 
 # Configure logger
 logger = logging.getLogger(__name__)
 
-# Create router with prefix
+# Create router
 router = APIRouter(prefix="/analysis")
+
+# OAuth2 scheme
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Authentication dependency
+async def get_current_user_id(token: str = Depends(oauth2_scheme)) -> str:
+    """Get current user ID from JWT token"""
+    try:
+        auth_service = get_auth_service()
+        payload = jwt.decode(token, auth_service.secret_key, algorithms=["HS256"])
+        user_id_or_email = payload.get("sub")
+        
+        # If it's an email, get the user ID
+        if "@" in str(user_id_or_email):
+            neo4j_service = get_neo4j_service()
+            user = neo4j_service.get_user_by_email(user_id_or_email)
+            if not user:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="User not found",
+                    headers={"WWW-Authenticate": "Bearer"},
+                )
+            return user["userId"]
+        
+        return user_id_or_email
+    except Exception as e:
+        logger.error(f"Authentication error: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
 # Models
 class AnalysisRequest(BaseModel):
@@ -56,40 +93,180 @@ class ExportResponse(BaseModel):
     message: str
     elements_exported: Dict[str, int] = {}
 
+class UpdateElementsRequest(BaseModel):
+    """Request model for updating session elements"""
+    elements: Dict[str, List[Dict[str, Any]]]
+
+class UpdateElementsResponse(BaseModel):
+    """Response model for updating session elements"""
+    status: str
+    message: str
+    session_id: str
+
 # Routes
 @router.post("/analyze", response_model=AnalysisResponse)
-async def analyze_transcript(request: AnalysisRequest):
-    """Analyze a session transcript"""
+async def analyze_transcript(
+    request: AnalysisRequest,
+    current_user_id: str = Depends(get_current_user_id)
+):
+    """Analyze a transcript and store results"""
     try:
-        # Get Neo4j service
-        neo4j_service = get_neo4j_service()
+        logger.info(f"Starting analysis for session {request.session_id}")
+        logger.info(f"Transcript length: {len(request.transcript) if request.transcript else 0} characters")
         
-        # Mock analysis
-        return {
-            "session_id": request.session_id,
-            "status": "completed",
-            "results": {
-                "emotions": [
-                    {"name": "Joy", "intensity": 0.8},
-                    {"name": "Frustration", "intensity": 0.4}
-                ],
-                "insights": [
-                    {"text": "Client shows progress in managing anxiety"}
-                ],
-                "beliefs": [
-                    {"text": "Client believes they need to be perfect"}
-                ],
-                "action_items": [
-                    {"description": "Practice daily mindfulness"}
+        # Get session from database
+        neo4j_service = get_neo4j_service()
+        session_data = neo4j_service.get_session_data(request.session_id)
+        
+        if not session_data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Session {request.session_id} not found"
+            )
+        
+        # Check if user owns this session
+        if session_data.get("userId") != current_user_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied"
+            )
+        
+        # Use transcript from request or session
+        transcript = request.transcript or session_data.get("transcript", "")
+        
+        if not transcript:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="No transcript provided"
+            )
+        
+        # Use analysis service to process transcript
+        try:
+            analysis_results = analyze_transcript_and_extract(transcript)
+            
+            if analysis_results.get("status") != "completed":
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail=f"Analysis failed: {analysis_results.get('error', 'Unknown error')}"
+                )
+            
+            # Extract elements from analysis results
+            elements = analysis_results.get("elements", {})
+            logger.info(f"Analysis completed successfully for session {request.session_id}")
+            logger.info(f"Analysis results keys: {list(elements.keys())}")
+            
+            # Format the data for Neo4j storage as expected by save_session_analysis
+            formatted_analysis_data = {}
+            
+            # Format emotions: [name, intensity, context, topics, timestamp]
+            if "emotions" in elements:
+                formatted_analysis_data["Emotions"] = [
+                    [
+                        emotion.get("name"),
+                        emotion.get("intensity", 3),
+                        emotion.get("context", ""),
+                        emotion.get("topic"),
+                        emotion.get("timestamp", "")
+                    ]
+                    for emotion in elements["emotions"]
                 ]
-            },
-            "created_at": datetime.now()
-        }
+            
+            # Format beliefs: [id, name, description, impact, topics, timestamp]  
+            if "beliefs" in elements:
+                formatted_analysis_data["Beliefs"] = [
+                    [
+                        str(uuid.uuid4()),  # Generate unique ID
+                        belief.get("name"),
+                        belief.get("description", belief.get("text", "")),
+                        belief.get("impact", ""),
+                        belief.get("topic"),
+                        belief.get("timestamp", "")
+                    ]
+                    for belief in elements["beliefs"]
+                ]
+            
+            # Format action items: [id, name, description, topics, status]
+            if "action_items" in elements:
+                formatted_analysis_data["actionitems"] = [
+                    [
+                        str(uuid.uuid4()),  # Generate unique ID
+                        action.get("name"),
+                        action.get("description", action.get("text", "")),
+                        action.get("topic"),
+                        action.get("status", "hasn't started")
+                    ]
+                    for action in elements["action_items"]
+                ]
+            
+            # Format challenges: [name, text, impact, topics]
+            if "challenges" in elements:
+                formatted_analysis_data["Challenges"] = [
+                    [
+                        challenge.get("name"),
+                        challenge.get("description", challenge.get("text", "")),
+                        challenge.get("impact", ""),
+                        challenge.get("topic")
+                    ]
+                    for challenge in elements["challenges"]
+                ]
+            
+            # Format insights: [name, text, context, topics]
+            if "insights" in elements:
+                formatted_analysis_data["Insights"] = [
+                    [
+                        insight.get("name"),
+                        insight.get("description", insight.get("text", "")),
+                        insight.get("context", ""),
+                        insight.get("topic")
+                    ]
+                    for insight in elements["insights"]
+                ]
+            
+            # Store the analysis results in the database using the proper Neo4j method
+            try:
+                success = neo4j_service.save_session_analysis(
+                    session_id=request.session_id,
+                    analysis_data=formatted_analysis_data,
+                    user_id=current_user_id
+                )
+                if success:
+                    logger.info(f"Successfully stored analysis results for session {request.session_id}")
+                else:
+                    logger.error(f"Failed to store analysis results for session {request.session_id}")
+            except Exception as storage_error:
+                logger.error(f"Failed to store analysis results: {str(storage_error)}")
+                # Continue anyway, as we still have the results to return
+            
+            # Transform the results to match the expected format
+            formatted_results = {
+                "emotions": analysis_results.get("elements", {}).get("emotions", []),
+                "insights": analysis_results.get("elements", {}).get("insights", []),
+                "beliefs": analysis_results.get("elements", {}).get("beliefs", []),
+                "action_items": analysis_results.get("elements", {}).get("action_items", []),
+                "challenges": analysis_results.get("elements", {}).get("challenges", [])
+            }
+            
+            return {
+                "session_id": request.session_id,
+                "status": "completed",
+                "results": formatted_results,
+                "created_at": datetime.now()
+            }
+            
+        except Exception as analysis_error:
+            logger.error(f"Analysis service error: {str(analysis_error)}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Analysis failed: {str(analysis_error)}"
+            )
+        
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error analyzing transcript: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An unexpected error occurred"
+            detail="An unexpected error occurred during analysis"
         )
 
 @router.get("/status/{analysis_id}", response_model=AnalysisResponse)
@@ -150,59 +327,186 @@ async def get_analysis_results(session_id: str):
         )
 
 @router.get("/{session_id}/elements", response_model=SessionElements)
-async def get_session_elements(session_id: str):
+async def get_session_elements(
+    session_id: str,
+    current_user_id: str = Depends(get_current_user_id)
+):
     """Get session elements"""
     try:
+        logger.info(f"Retrieving session elements for session {session_id}")
+        
         # Get Neo4j service
         neo4j_service = get_neo4j_service()
         
-        # Mock session elements
-        return {
-            "emotions": [
-                {"name": "Joy", "intensity": 0.8, "timestamp": datetime.now()},
-                {"name": "Frustration", "intensity": 0.4, "timestamp": datetime.now()}
-            ],
-            "insights": [
-                {
-                    "text": "Client shows progress in managing anxiety",
-                    "topic": "Personal Growth",
-                    "timestamp": datetime.now()
-                }
-            ],
-            "beliefs": [
-                {
-                    "text": "Client believes they need to be perfect",
-                    "impact": "High",
-                    "topic": "Self-Esteem",
-                    "timestamp": datetime.now()
-                }
-            ],
-            "action_items": [
-                {
-                    "description": "Practice daily mindfulness",
-                    "priority": "High",
-                    "status": "Pending",
-                    "timestamp": datetime.now()
-                }
-            ],
-            "themes": [
-                {"name": "Anxiety", "confidence": 0.9},
-                {"name": "Personal Growth", "confidence": 0.8}
-            ],
-            "challenges": [
-                {
-                    "name": "Public speaking anxiety",
-                    "impact": "High",
-                    "topic": "Career",
-                    "timestamp": datetime.now()
-                }
-            ]
+        # Get session data with all relationships and elements
+        session_data = neo4j_service.get_session_with_relationships(session_id)
+        
+        if not session_data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Session {session_id} not found"
+            )
+        
+        # Check if user owns this session
+        if session_data.get("userId") != current_user_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied"
+            )
+        
+        # Extract elements from session data
+        elements = {
+            "emotions": session_data.get("emotions", []),
+            "insights": session_data.get("insights", []),
+            "beliefs": session_data.get("beliefs", []),
+            "action_items": session_data.get("actionitems", []),  # Note: Neo4j service uses "actionitems"
+            "themes": [],  # Themes could be derived from topics
+            "challenges": session_data.get("challenges", [])
         }
+        
+        # Process topics as themes if available
+        topics = session_data.get("topics", [])
+        for topic in topics:
+            elements["themes"].append({
+                "name": topic.get("name", ""),
+                "confidence": topic.get("relevance", 0.9),  # Use relevance as confidence
+                "description": topic.get("description", "")
+            })
+        
+        logger.info(f"Retrieved {len(elements['emotions'])} emotions, {len(elements['insights'])} insights, {len(elements['beliefs'])} beliefs, {len(elements['action_items'])} action items, {len(elements['challenges'])} challenges for session {session_id}")
+        
+        return elements
+        
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Error getting session elements: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An unexpected error occurred"
+            detail="An unexpected error occurred while retrieving session elements"
+        )
+
+@router.put("/{session_id}/elements", response_model=UpdateElementsResponse)
+async def update_session_elements(
+    session_id: str, 
+    request: UpdateElementsRequest,
+    current_user_id: str = Depends(get_current_user_id)
+):
+    """Update session elements"""
+    try:
+        logger.info(f"Updating session elements for session {session_id}")
+        
+        # Get Neo4j service
+        neo4j_service = get_neo4j_service()
+        
+        # Verify session exists and user owns it
+        session_data = neo4j_service.get_session_with_relationships(session_id)
+        if not session_data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Session {session_id} not found"
+            )
+        
+        # Check if user owns this session
+        if session_data.get("userId") != current_user_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied"
+            )
+        
+        # Format elements for Neo4j storage (matching the format used in analyze endpoint)
+        formatted_analysis_data = {}
+        
+        # Format emotions: [name, intensity, context, topics]
+        if request.elements.get("emotions"):
+            formatted_analysis_data["Emotions"] = [
+                [
+                    emotion.get("name", "Unnamed Emotion"),
+                    emotion.get("intensity", 3),  # Default intensity
+                    emotion.get("context", ""),
+                    emotion.get("topic", "Personal Growth")  # Default topic
+                ]
+                for emotion in request.elements["emotions"]
+            ]
+        
+        # Format beliefs: [id, name, text, impact, topics]
+        if request.elements.get("beliefs"):
+            formatted_analysis_data["Beliefs"] = [
+                [
+                    belief.get("id", str(uuid.uuid4())),  # Generate ID if not provided
+                    belief.get("name", "Unnamed Belief"),
+                    belief.get("description", belief.get("text", "")),  # Use text or description
+                    belief.get("impact", "Medium"),  # Default impact
+                    belief.get("topic", "Personal Growth")  # Default topic
+                ]
+                for belief in request.elements["beliefs"]
+            ]
+        
+        # Format action items: [id, name, description, topics, status]
+        if request.elements.get("action_items"):
+            formatted_analysis_data["actionitems"] = [
+                [
+                    action.get("id", str(uuid.uuid4())),  # Generate ID if not provided
+                    action.get("name", "Unnamed Action"),
+                    action.get("description", ""),
+                    action.get("topic", "Personal Growth"),  # Default topic
+                    action.get("status", "Not Started")  # Default status
+                ]
+                for action in request.elements["action_items"]
+            ]
+        
+        # Format insights: [name, text, context, topics]
+        if request.elements.get("insights"):
+            formatted_analysis_data["Insights"] = [
+                [
+                    insight.get("name", "Unnamed Insight"),
+                    insight.get("description", insight.get("text", "")),  # Use text or description
+                    insight.get("context", ""),
+                    insight.get("topic", "Personal Growth")  # Default topic
+                ]
+                for insight in request.elements["insights"]
+            ]
+        
+        # Format challenges: [name, text, impact, topics]
+        if request.elements.get("challenges"):
+            formatted_analysis_data["Challenges"] = [
+                [
+                    challenge.get("name", "Unnamed Challenge"),
+                    challenge.get("description", challenge.get("text", "")),  # Use text or description
+                    challenge.get("impact", "Medium"),  # Default impact
+                    challenge.get("topic", "Personal Growth")  # Default topic
+                ]
+                for challenge in request.elements["challenges"]
+            ]
+        
+        # Update elements using Neo4j service
+        success = neo4j_service.update_session_with_elements(
+            session_id=session_id,  # Use session_id directly as it's the graph ID
+            elements=formatted_analysis_data,
+            user_id=current_user_id
+        )
+        
+        if not success:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to update session elements"
+            )
+        
+        logger.info(f"Successfully updated elements for session {session_id}")
+        
+        return UpdateElementsResponse(
+            status="success",
+            message=f"Successfully updated elements for session {session_id}",
+            session_id=session_id
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating session elements: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred while updating session elements"
         )
 
 class Neo4jQueryRequest(BaseModel):
