@@ -10,7 +10,7 @@ from __future__ import annotations
 import logging
 import os
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from datetime import datetime
 
 from dotenv import load_dotenv
@@ -38,9 +38,48 @@ VALID_TOPICS = [
 ]
 
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
-MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-nano")
+DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-4")
 if not OPENAI_KEY:
     raise RuntimeError("OPENAI_API_KEY not set")
+
+# ---------------------------------------------------------------------------
+# Settings integration
+# ---------------------------------------------------------------------------
+def get_user_analysis_settings(user_id: str = None) -> Dict[str, Any]:
+    """Get user's analysis settings from Neo4j, with fallbacks to defaults"""
+    try:
+        if user_id:
+            # Import here to avoid circular imports
+            from services import get_neo4j_service
+            
+            neo4j_service = get_neo4j_service()
+            settings = neo4j_service.get_user_settings(user_id)
+            
+            if settings:
+                log.info(f"Loaded user settings for {user_id}: model={settings.get('gpt_model', DEFAULT_MODEL)}")
+                return {
+                    'gpt_model': settings.get('gpt_model', DEFAULT_MODEL),
+                    'max_tokens': settings.get('max_tokens', 1500),
+                    'temperature': settings.get('temperature', 0.7),
+                    'system_prompt_template': settings.get('system_prompt_template'),
+                    'analysis_prompt_template': settings.get('analysis_prompt_template'),
+                }
+            else:
+                log.info(f"No settings found for user {user_id}, using defaults")
+        else:
+            log.info("No user_id provided, using default settings")
+            
+    except Exception as e:
+        log.warning(f"Error loading user settings: {str(e)}, using defaults")
+    
+    # Return default settings
+    return {
+        'gpt_model': DEFAULT_MODEL,
+        'max_tokens': 1500,
+        'temperature': 0.7,
+        'system_prompt_template': None,
+        'analysis_prompt_template': None,
+    }
 
 # ---------------------------------------------------------------------------
 # Prompt template (all sections include Topic)
@@ -143,49 +182,8 @@ Transcript:
 """
 
 # ---------------------------------------------------------------------------
-# Regex patterns for element extraction
+# Regex patterns for element extraction (now done inline in extract_elements)
 # ---------------------------------------------------------------------------
-EMO_RE = re.compile(r"""
-    ===\s*EMOTIONS\s*===\n
-    Name:\s*(?P<name>[^\n]+)\n
-    Intensity:\s*(?P<intensity>\d+)\n
-    Context:\s*(?P<context>[^\n]+)\n
-    Topic:\s*(?P<topic>[^\n]+)\n
-    Timestamp:\s*(?P<timestamp>[^\n]+)
-""", re.VERBOSE | re.DOTALL)
-
-BELIEF_RE = re.compile(r"""
-    ===\s*BELIEFS\s*===\n
-    Name:\s*(?P<name>[^\n]+)\n
-    Description:\s*(?P<description>[^\n]+)\n
-    Impact:\s*(?P<impact>[^\n]+)\n
-    Topic:\s*(?P<topic>[^\n]+)\n
-    Timestamp:\s*(?P<timestamp>[^\n]+)
-""", re.VERBOSE | re.DOTALL)
-
-ACTION_RE = re.compile(r"""
-    ===\s*ACTION\s*ITEMS\s*===\n
-    Name:\s*(?P<name>[^\n]+)\n
-    Description:\s*(?P<description>[^\n]+)\n
-    Topic:\s*(?P<topic>[^\n]+)\n
-    Timestamp:\s*(?P<timestamp>[^\n]+)
-""", re.VERBOSE | re.DOTALL)
-
-CHAL_RE = re.compile(r"""
-    ===\s*CHALLENGES\s*===\n
-    Name:\s*(?P<name>[^\n]+)\n
-    Impact:\s*(?P<impact>[^\n]+)\n
-    Topic:\s*(?P<topic>[^\n]+)\n
-    Timestamp:\s*(?P<timestamp>[^\n]+)
-""", re.VERBOSE | re.DOTALL)
-
-INSIGHT_RE = re.compile(r"""
-    ===\s*INSIGHTS\s*===\n
-    Name:\s*(?P<name>[^\n]+)\n
-    Context:\s*(?P<context>[^\n]+)\n
-    Topic:\s*(?P<topic>[^\n]+)\n
-    Timestamp:\s*(?P<timestamp>[^\n]+)
-""", re.VERBOSE | re.DOTALL)
 
 # ---------------------------------------------------------------------------
 # OpenAI call with retries
@@ -197,24 +195,44 @@ retry_openai = retry(
 )
 
 @retry_openai
-def _ask_llm(prompt: str) -> str:
+def _ask_llm(prompt: str, user_settings: Dict[str, Any] = None) -> str:
+    """Call OpenAI API with user-configured settings"""
     log.info("Creating OpenAI client...")
     try:
-        # Initialize OpenAI client without proxy configuration to avoid issues
+        # Get settings with defaults
+        if user_settings is None:
+            user_settings = get_user_analysis_settings()
+        
+        model = user_settings.get('gpt_model', DEFAULT_MODEL)
+        max_tokens = user_settings.get('max_tokens', 1500)
+        temperature = user_settings.get('temperature', 0.7)
+        
+        log.info(f"Using OpenAI settings: model={model}, max_tokens={max_tokens}, temperature={temperature}")
+        
+        # Initialize OpenAI client with modern v1.82.0 compatible parameters
         log.info("Attempting to initialize OpenAI client...")
-        client = OpenAI(api_key=OPENAI_KEY)
+        client = OpenAI(
+            api_key=OPENAI_KEY,
+            timeout=60.0,  # Use timeout instead of deprecated parameters
+            max_retries=3
+        )
         log.info("OpenAI client created successfully")
         
         log.info("Sending request to OpenAI...")
         try:
+            # Use custom system prompt if provided in settings
+            system_prompt = user_settings.get('system_prompt_template')
+            if not system_prompt:
+                system_prompt = "You are a helpful therapy analysis assistant that extracts structured insights from therapy session transcripts."
+            
             response = client.chat.completions.create(
-                model=MODEL,
+                model=model,
                 messages=[
-                    {"role": "system", "content": "You are a helpful therapy analysis assistant that extracts structured insights from therapy session transcripts."},
+                    {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt},
                 ],
-                max_tokens=1500,
-                temperature=0.7,
+                max_tokens=max_tokens,
+                temperature=temperature,
             )
             log.info("Received response from OpenAI")
             return response.choices[0].message.content
@@ -237,19 +255,27 @@ def analyze_transcript(transcript: str, user_id: str = None) -> Dict[str, Any]:
     try:
         log.info("Starting transcript analysis...")
         
-        # Verify OpenAI API key
+        # Verify OpenAI API key is provided
         if not OPENAI_KEY:
-            log.error("OpenAI API key not found in environment variables")
-            raise RuntimeError("OpenAI API key not configured")
+            log.error("No OpenAI API key found in environment variables")
+            raise ValueError("OpenAI API key is required for analysis")
             
-        # Validate OpenAI API key format
-        if not (OPENAI_KEY.startswith('sk-') or OPENAI_KEY.startswith('sk-proj-')) or len(OPENAI_KEY) < 40:
-            log.error("Invalid OpenAI API key format")
-            raise RuntimeError("Invalid OpenAI API key format")
+        # Check for placeholder values
+        if OPENAI_KEY == "placeholder":
+            log.error("OpenAI API key is set to placeholder value")
+            raise ValueError("Please provide a valid OpenAI API key")
         
-        # Use default prompt template
-        prompt_template = PROMPT_TEMPLATE
-        log.info("Using default prompt template")
+        # Load user settings for analysis configuration
+        user_settings = get_user_analysis_settings(user_id)
+        log.info(f"Loaded analysis settings: {user_settings}")
+        
+        # Use custom prompt template if provided, otherwise use default
+        prompt_template = user_settings.get('analysis_prompt_template')
+        if not prompt_template:
+            prompt_template = PROMPT_TEMPLATE
+            log.info("Using default prompt template")
+        else:
+            log.info("Using custom prompt template from user settings")
         
         # Format the prompt with the transcript
         try:
@@ -259,10 +285,10 @@ def analyze_transcript(transcript: str, user_id: str = None) -> Dict[str, Any]:
             log.error(f"Error formatting prompt: {str(e)}")
             raise
         
-        # Get analysis from LLM
-        log.info("Calling OpenAI API...")
+        # Get analysis from LLM with user settings
+        log.info("Calling OpenAI API with user settings...")
         try:
-            analysis_text = _ask_llm(prompt)
+            analysis_text = _ask_llm(prompt, user_settings)
             log.info(f"Received response from OpenAI: {analysis_text[:200]}...")
         except Exception as e:
             log.error(f"Error calling OpenAI API: {str(e)}")
@@ -272,7 +298,7 @@ def analyze_transcript(transcript: str, user_id: str = None) -> Dict[str, Any]:
         log.info("Extracting elements from analysis...")
         try:
             elements = extract_elements(analysis_text)
-            log.info(f"Extracted elements: {elements}")
+            log.info(f"Successfully extracted {len(elements.get('emotions', []))} emotions, {len(elements.get('beliefs', []))} beliefs, {len(elements.get('action_items', []))} action items, {len(elements.get('challenges', []))} challenges, {len(elements.get('insights', []))} insights")
         except Exception as e:
             log.error(f"Error extracting elements: {str(e)}")
             raise
@@ -281,7 +307,7 @@ def analyze_transcript(transcript: str, user_id: str = None) -> Dict[str, Any]:
         
     except Exception as e:
         log.error(f"Error analyzing transcript: {str(e)}")
-        raise
+        raise  # Re-raise the exception instead of returning mock data
 
 def extract_elements(text):
     """Extract structured elements from the analysis text."""
@@ -300,59 +326,102 @@ def extract_elements(text):
         }
         
         try:
-            # Extract emotions
-            emotions = EMO_RE.finditer(text)
-            for match in emotions:
-                emotion_dict = match.groupdict()
-                # Keep emotion even if topic is not valid
-                elements['emotions'].append(emotion_dict)
-        except Exception as e:
-            logging.error(f"Error extracting emotions: {str(e)}")
+            # Extract emotions - find all emotions anywhere in text (handles duplicate headers)
+            emotion_pattern = re.compile(r"""
+                Name:\s*(?P<name>[^\n]+)\s*\n
+                Intensity:\s*(?P<intensity>\d+)\s*\n
+                Context:\s*(?P<context>[^\n]+)\s*\n
+                Topic:\s*(?P<topic>[^\n]+)\s*\n
+                Timestamp:\s*(?P<timestamp>[^\n]+)
+            """, re.VERBOSE)
             
-        try:
-            # Extract beliefs
-            beliefs = BELIEF_RE.finditer(text)
-            for match in beliefs:
-                belief_dict = match.groupdict()
-                # Keep belief even if topic is not valid
-                elements['beliefs'].append(belief_dict)
-        except Exception as e:
-            logging.error(f"Error extracting beliefs: {str(e)}")
+            for match in emotion_pattern.finditer(text):
+                emotion_data = match.groupdict()
+                # Clean up whitespace
+                for key, value in emotion_data.items():
+                    emotion_data[key] = value.strip() if isinstance(value, str) else value
+                elements['emotions'].append(emotion_data)
             
-        try:
-            # Extract action items
-            action_items = ACTION_RE.finditer(text)
-            for match in action_items:
-                action_dict = match.groupdict()
-                # Keep action item even if topic is not valid
-                elements['action_items'].append(action_dict)
-        except Exception as e:
-            logging.error(f"Error extracting action items: {str(e)}")
+            # Extract beliefs section and then individual beliefs
+            belief_section_match = re.search(r'===\s*BELIEFS\s*===\s*\n(.*?)(?=\n\s*===|$)', text, re.DOTALL)
+            if belief_section_match:
+                belief_section = belief_section_match.group(1)
+                belief_pattern = re.compile(r"""
+                    Name:\s*(?P<name>[^\n]+)\s*\n
+                    Description:\s*(?P<description>[^\n]+)\s*\n
+                    Impact:\s*(?P<impact>[^\n]+)\s*\n
+                    Topic:\s*(?P<topic>[^\n]+)\s*\n
+                    Timestamp:\s*(?P<timestamp>[^\n]+)
+                """, re.VERBOSE)
+                
+                for match in belief_pattern.finditer(belief_section):
+                    belief_data = match.groupdict()
+                    # Clean up whitespace
+                    for key, value in belief_data.items():
+                        belief_data[key] = value.strip() if isinstance(value, str) else value
+                    elements['beliefs'].append(belief_data)
             
-        try:
-            # Extract challenges
-            challenges = CHAL_RE.finditer(text)
-            for match in challenges:
-                challenge_dict = match.groupdict()
-                # Keep challenge even if topic is not valid
-                elements['challenges'].append(challenge_dict)
-        except Exception as e:
-            logging.error(f"Error extracting challenges: {str(e)}")
+            # Extract action items section and then individual action items  
+            action_section_match = re.search(r'===\s*ACTION ITEMS\s*===\s*\n(.*?)(?=\n\s*===|$)', text, re.DOTALL)
+            if action_section_match:
+                action_section = action_section_match.group(1)
+                action_pattern = re.compile(r"""
+                    Name:\s*(?P<name>[^\n]+)\s*\n
+                    Description:\s*(?P<description>[^\n]+)\s*\n
+                    Topic:\s*(?P<topic>[^\n]+)\s*\n
+                    Timestamp:\s*(?P<timestamp>[^\n]+)
+                """, re.VERBOSE)
+                
+                for match in action_pattern.finditer(action_section):
+                    action_data = match.groupdict()
+                    # Clean up whitespace
+                    for key, value in action_data.items():
+                        action_data[key] = value.strip() if isinstance(value, str) else value
+                    elements['action_items'].append(action_data)
             
-        try:
-            # Extract insights
-            insights = INSIGHT_RE.finditer(text)
-            for match in insights:
-                insight_dict = match.groupdict()
-                # Keep insight even if topic is not valid
-                elements['insights'].append(insight_dict)
-        except Exception as e:
-            logging.error(f"Error extracting insights: {str(e)}")
+            # Extract challenges section and then individual challenges
+            challenge_section_match = re.search(r'===\s*CHALLENGES\s*===\s*\n(.*?)(?=\n\s*===|$)', text, re.DOTALL)
+            if challenge_section_match:
+                challenge_section = challenge_section_match.group(1)
+                challenge_pattern = re.compile(r"""
+                    Name:\s*(?P<name>[^\n]+)\s*\n
+                    Impact:\s*(?P<impact>[^\n]+)\s*\n
+                    Topic:\s*(?P<topic>[^\n]+)\s*\n
+                    Timestamp:\s*(?P<timestamp>[^\n]+)
+                """, re.VERBOSE)
+                
+                for match in challenge_pattern.finditer(challenge_section):
+                    challenge_data = match.groupdict()
+                    # Clean up whitespace
+                    for key, value in challenge_data.items():
+                        challenge_data[key] = value.strip() if isinstance(value, str) else value
+                    elements['challenges'].append(challenge_data)
             
+            # Extract insights section and then individual insights
+            insight_section_match = re.search(r'===\s*INSIGHTS\s*===\s*\n(.*?)(?=\n\s*===|$)', text, re.DOTALL)
+            if insight_section_match:
+                insight_section = insight_section_match.group(1)
+                insight_pattern = re.compile(r"""
+                    Name:\s*(?P<name>[^\n]+)\s*\n
+                    Context:\s*(?P<context>[^\n]+)\s*\n
+                    Topic:\s*(?P<topic>[^\n]+)\s*\n
+                    Timestamp:\s*(?P<timestamp>[^\n]+)
+                """, re.VERBOSE)
+                
+                for match in insight_pattern.finditer(insight_section):
+                    insight_data = match.groupdict()
+                    # Clean up whitespace
+                    for key, value in insight_data.items():
+                        insight_data[key] = value.strip() if isinstance(value, str) else value
+                    elements['insights'].append(insight_data)
+        
+        except Exception as e:
+            logging.error(f"Error extracting elements: {e}")
+        
         return elements
         
     except Exception as e:
-        logging.error(f"Error in extract_elements: {str(e)}")
+        logging.error(f"Error in extract_elements: {e}")
         return {
             'emotions': [],
             'beliefs': [],
@@ -361,14 +430,14 @@ def extract_elements(text):
             'insights': []
         }
 
-def analyze_transcript_and_extract(transcript: str, settings: Dict[str, Any] = None) -> Dict[str, Any]:
+def analyze_transcript_and_extract(transcript: str, user_id: str = None) -> Dict[str, Any]:
     """Analyze transcript and extract elements in one step."""
     try:
         log.info("Starting combined analysis and extraction...")
         
-        # Analyze transcript
+        # Analyze transcript with user settings
         try:
-            analysis = analyze_transcript(transcript)
+            analysis = analyze_transcript(transcript, user_id=user_id)
             log.info("Successfully analyzed transcript")
         except Exception as e:
             log.error(f"Error analyzing transcript: {str(e)}")

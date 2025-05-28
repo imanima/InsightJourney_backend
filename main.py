@@ -12,6 +12,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routes import auth_router, sessions_router, analysis_router
 from routes.transcription_routes import router as transcription_router
+from routes.action_items import router as action_items_router
+from routes.settings import router as settings_router  # Import the new settings router
 from insights import insights_router  # Import the new insights router
 
 # Configure logging - container-friendly configuration 
@@ -37,8 +39,13 @@ app = FastAPI(
 
 # Configure CORS
 origins = [
-    "http://localhost:3000",
-    "http://localhost:8080",
+    "http://localhost:3000",  # Next.js default
+    "http://localhost:4000",  # Current frontend port
+    "http://localhost:8080",  # Backend port
+    "http://localhost:3001",  # Alternative Next.js port
+    "http://127.0.0.1:3000",  # Alternative localhost format
+    "http://127.0.0.1:4000",  # Alternative localhost format
+    "http://127.0.0.1:8080",  # Alternative localhost format
     "https://insight-journey.vercel.app",
     "https://app.insightjourney.ai"
 ]
@@ -65,6 +72,8 @@ app.include_router(auth_router, prefix=API_PREFIX)
 app.include_router(sessions_router, prefix=API_PREFIX)
 app.include_router(analysis_router, prefix=API_PREFIX)
 app.include_router(transcription_router, prefix=API_PREFIX)
+app.include_router(action_items_router, prefix=API_PREFIX)
+app.include_router(settings_router, prefix=API_PREFIX)  # Add the settings router
 app.include_router(insights_router, prefix=API_PREFIX)  # Add the insights router
 
 # Health check endpoint
@@ -76,10 +85,11 @@ async def health_check():
 # Global exception handler
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    """Global exception handler for unhandled exceptions"""
     logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
     return JSONResponse(
         status_code=500,
-        content={"detail": "An unexpected error occurred. Please try again later."}
+        content={"detail": "Internal server error"}
     )
 
 # 404 handler
@@ -92,10 +102,5 @@ async def not_found_handler(request: Request, exc: Exception):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(
-        "main:app", 
-        host="0.0.0.0", 
-        port=8080, 
-        reload=True,
-        log_level="info"
-    ) 
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run(app, host="0.0.0.0", port=port) 

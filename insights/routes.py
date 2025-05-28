@@ -44,7 +44,7 @@ async def get_turning_point(
     This identifies the session where the biggest positive change occurred.
     """
     user_id = current_user["userId"]
-    result = await service.calculate_turning_point(user_id, emotion)
+    result = service.calculate_turning_point(user_id, emotion)
     
     if not result:
         raise HTTPException(status_code=404, detail="No turning point found")
@@ -64,7 +64,7 @@ async def get_correlations(
     This identifies which topics tend to appear together with specific emotions.
     """
     user_id = current_user["userId"]
-    results = await service.calculate_correlations(user_id, limit)
+    results = service.calculate_correlations(user_id, limit)
     
     return {"correlations": results}
 
@@ -80,7 +80,7 @@ async def get_insight_cascade(
     This visualizes the connection between different insights over time.
     """
     user_id = current_user["userId"]
-    result = await service.build_insight_cascade(user_id)
+    result = service.build_insight_cascade(user_id)
     
     if not result:
         raise HTTPException(status_code=404, detail="No insight cascade found")
@@ -99,7 +99,7 @@ async def get_future_prediction(
     Uses a Markov chain model to predict likely upcoming topics.
     """
     user_id = current_user["userId"]
-    result = await service.predict_future_focus(user_id)
+    result = service.predict_future_focus(user_id)
     
     if not result:
         raise HTTPException(
@@ -121,7 +121,7 @@ async def get_challenge_persistence(
     Tracks how challenges persist over time and provides badge achievements.
     """
     user_id = current_user["userId"]
-    results = await service.track_challenge_persistence(user_id)
+    results = service.track_challenge_persistence(user_id)
     
     return {"challenges": results}
 
@@ -138,7 +138,7 @@ async def get_therapist_snapshot(
     action item adherence, and next session forecast.
     """
     user_id = current_user["userId"]
-    result = await service.generate_therapist_snapshot(user_id)
+    result = service.generate_therapist_snapshot(user_id)
     
     if not result:
         raise HTTPException(status_code=404, detail="Not enough data for therapist snapshot")
@@ -175,11 +175,11 @@ async def get_all_insights(
     user_id = current_user["userId"]
     
     # Collect insights from all categories
-    turning_point = await service.calculate_turning_point(user_id)
-    correlations = await service.calculate_correlations(user_id, limit=3)
-    cascade = await service.build_insight_cascade(user_id)
-    prediction = await service.predict_future_focus(user_id)
-    challenges = await service.track_challenge_persistence(user_id)
+    turning_point = service.calculate_turning_point(user_id)
+    correlations = service.calculate_correlations(user_id, limit=3)
+    cascade = service.build_insight_cascade(user_id)
+    prediction = service.predict_future_focus(user_id)
+    challenges = service.track_challenge_persistence(user_id)
     
     # Combine results
     results = {

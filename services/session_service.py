@@ -64,9 +64,46 @@ class SessionService:
         """Update an existing session"""
         return self.neo4j_service.update_session(session_id, session_data)
     
-    def delete_session(self, session_id: str) -> bool:
-        """Delete a session"""
-        return self.neo4j_service.delete_session(session_id)
+    def delete_session(self, session_id: str, user_id: str) -> None:
+        """Delete a session and all its elements."""
+        try:
+            # Verify session exists and belongs to user
+            session_data = self.neo4j_service.get_session_data(session_id)
+            if not session_data:
+                raise NotFoundError(
+                    f"Session {session_id} not found",
+                    "SESSION_NOT_FOUND"
+                )
+                
+            if session_data.get('userId') != user_id:
+                raise ValidationError(
+                    "Session does not belong to user",
+                    "UNAUTHORIZED_ACCESS"
+                )
+                
+            # Delete session
+            try:
+                self.neo4j_service.delete_session(session_id)
+                logger.info(f"Successfully deleted session {session_id}")
+            except Exception as e:
+                logger.error(f"Database error deleting session {session_id}: {str(e)}")
+                raise DatabaseError(
+                    "Failed to delete session from database",
+                    "DB_DELETE_ERROR",
+                    {"original_error": str(e)}
+                )
+                
+        except NotFoundError:
+            raise
+        except ValidationError:
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error deleting session {session_id}: {str(e)}")
+            raise SessionError(
+                "Failed to delete session",
+                "SESSION_DELETE_ERROR",
+                {"original_error": str(e)}
+            )
     
     def add_emotion(self, session_id: str, emotion_data: Dict[str, Any]) -> str:
         """Add an emotion to a session"""
@@ -218,46 +255,5 @@ class SessionService:
             raise SessionError(
                 "Failed to add elements to session",
                 "SESSION_UPDATE_ERROR",
-                {"original_error": str(e)}
-            )
-            
-    def delete_session(self, session_id: str, user_id: str) -> None:
-        """Delete a session and all its elements."""
-        try:
-            # Verify session exists and belongs to user
-            session_data = self.neo4j_service.get_session_data(session_id)
-            if not session_data:
-                raise NotFoundError(
-                    f"Session {session_id} not found",
-                    "SESSION_NOT_FOUND"
-                )
-                
-            if session_data.get('userId') != user_id:
-                raise ValidationError(
-                    "Session does not belong to user",
-                    "UNAUTHORIZED_ACCESS"
-                )
-                
-            # Delete session
-            try:
-                self.neo4j_service.delete_session(session_id)
-                logger.info(f"Successfully deleted session {session_id}")
-            except Exception as e:
-                logger.error(f"Database error deleting session {session_id}: {str(e)}")
-                raise DatabaseError(
-                    "Failed to delete session from database",
-                    "DB_DELETE_ERROR",
-                    {"original_error": str(e)}
-                )
-                
-        except NotFoundError:
-            raise
-        except ValidationError:
-            raise
-        except Exception as e:
-            logger.error(f"Unexpected error deleting session {session_id}: {str(e)}")
-            raise SessionError(
-                "Failed to delete session",
-                "SESSION_DELETE_ERROR",
                 {"original_error": str(e)}
             ) 
