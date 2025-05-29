@@ -37,6 +37,7 @@ class UserSettings(BaseModel):
     temperature: Optional[float] = 0.7
     system_prompt_template: Optional[str] = None
     analysis_prompt_template: Optional[str] = None
+    home_page_version: Optional[str] = "empowerment"  # "empowerment" or "therapy"
 
 class AdminSettings(BaseModel):
     gpt_model: Optional[str] = "gpt-4"
@@ -138,7 +139,8 @@ async def get_user_settings(
             max_tokens=settings.get('max_tokens', 1500),
             temperature=settings.get('temperature', 0.7),
             system_prompt_template=settings.get('system_prompt_template'),
-            analysis_prompt_template=settings.get('analysis_prompt_template')
+            analysis_prompt_template=settings.get('analysis_prompt_template'),
+            home_page_version=settings.get('home_page_version', 'empowerment')
         )
     except Exception as e:
         logger.error(f"Error getting user settings: {str(e)}")
@@ -293,6 +295,11 @@ async def get_all_users(
             )
             users = [dict(record) for record in result]
         
+        # Fetch home_page_version for each user from their settings
+        for user in users:
+            user_settings = neo4j_service.get_user_settings(user['id'])
+            user['home_page_version'] = user_settings.get('home_page_version', 'empowerment') if user_settings else 'empowerment'
+        
         return {"users": users}
     except HTTPException:
         raise
@@ -309,11 +316,11 @@ async def update_user(
     user_data: Dict[str, Any],
     current_admin_id: str = Depends(get_current_admin_user)
 ):
-    """Update user details (admin only)"""
+    """Update user information (admin only)"""
     try:
         neo4j_service = get_neo4j_service()
         
-        # Get user from Neo4j
+        # Get current user
         user = neo4j_service.get_user_by_id(user_id)
         if not user:
             raise HTTPException(
@@ -321,36 +328,39 @@ async def update_user(
                 detail="User not found"
             )
         
-        # Update properties
-        properties = {}
-        if 'name' in user_data:
-            properties['name'] = user_data['name']
-        if 'email' in user_data:
-            properties['email'] = user_data['email']
-        if 'is_admin' in user_data:
-            properties['is_admin'] = user_data['is_admin']
+        # Handle home_page_version separately as it goes to user settings
+        if 'home_page_version' in user_data:
+            home_page_version = user_data.pop('home_page_version')
+            
+            # Get current settings
+            current_settings = neo4j_service.get_user_settings(user_id) or {}
+            
+            # Update home page version
+            current_settings['home_page_version'] = home_page_version
+            
+            # Save updated settings
+            settings_success = neo4j_service.save_user_settings(user_id, current_settings)
+            
+            if not settings_success:
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Failed to update user home page version"
+                )
         
-        # Update user in Neo4j
-        success = neo4j_service.update_user(user_id, **properties)
+        # Only allow updating certain user profile fields
+        allowed_fields = ['is_admin', 'disabled']
+        update_data = {k: v for k, v in user_data.items() if k in allowed_fields}
         
-        if not success:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to update user"
-            )
+        # Update user properties if there are any valid fields
+        if update_data:
+            result = neo4j_service.update_user(user_id, update_data)
+            if not result:
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Failed to update user"
+                )
         
-        # Get updated user data
-        updated_user = neo4j_service.get_user_by_id(user_id)
-        
-        return {
-            'message': 'User updated successfully',
-            'user': {
-                'id': updated_user.get('userId'),
-                'name': updated_user.get('name'),
-                'email': updated_user.get('email'),
-                'is_admin': updated_user.get('is_admin', False)
-            }
-        }
+        return {"message": "User updated successfully"}
     except HTTPException:
         raise
     except Exception as e:
@@ -358,6 +368,60 @@ async def update_user(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to update user"
+        )
+
+@router.put("/admin/users/{user_id}/home-page-version")
+async def update_user_home_page_version(
+    user_id: str,
+    version_data: Dict[str, str],
+    current_admin_id: str = Depends(get_current_admin_user)
+):
+    """Update a user's home page version (admin only)"""
+    try:
+        version = version_data.get('home_page_version')
+        if version not in ['empowerment', 'therapy']:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid home page version. Must be 'empowerment' or 'therapy'"
+            )
+        
+        neo4j_service = get_neo4j_service()
+        
+        # Check if user exists
+        user = neo4j_service.get_user_by_id(user_id)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+        
+        # Get current settings
+        current_settings = neo4j_service.get_user_settings(user_id) or {}
+        
+        # Update home page version
+        current_settings['home_page_version'] = version
+        
+        # Save updated settings
+        success = neo4j_service.save_user_settings(user_id, current_settings)
+        
+        if not success:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to update user home page version"
+            )
+        
+        return {
+            "message": "User home page version updated successfully",
+            "user_id": user_id,
+            "home_page_version": version
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating user home page version: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update user home page version"
         )
 
 # Admin Statistics Route
@@ -465,8 +529,9 @@ async def get_default_prompt_template(
 @router.options("/admin")
 @router.options("/admin/users")
 @router.options("/admin/users/{user_id}")
+@router.options("/admin/users/{user_id}/home-page-version")
 @router.options("/admin/stats")
 @router.options("/default-prompt")
 async def options_handler():
     """Handle CORS preflight requests"""
-    return Response(status_code=200) 
+    return {"message": "OK"} 

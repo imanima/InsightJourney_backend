@@ -63,7 +63,9 @@ class ActionItemService:
         """Get all action items for a user across all sessions."""
         query = """
         MATCH (u:User {userId: $user_id})-[:HAS_SESSION]->(s:Session)-[:HAS_ACTION_ITEM]->(a:ActionItem)
-        RETURN a, s.title as session_title, s.id as session_id
+        OPTIONAL MATCH (a)-[:RELATED_TO]->(t:Topic)
+        RETURN a, s.title as session_title, s.id as session_id, s.created_at as session_date,
+               COLLECT(DISTINCT {name: t.name, id: t.id}) as topics
         ORDER BY a.created_at DESC
         """
         params = {'user_id': user_id}
@@ -72,12 +74,37 @@ class ActionItemService:
             with self.neo4j.driver.session() as session:
                 result = session.run(query, params)
                 action_items = []
+                
                 for record in result:
                     item = self._format_action_item(record['a'])
                     item['sessionId'] = record['session_id']
                     item['sessionTitle'] = record['session_title']
+                    
+                    # Handle session_date safely
+                    session_date = record['session_date']
+                    if session_date:
+                        try:
+                            if hasattr(session_date, 'isoformat'):
+                                item['sessionDate'] = session_date.isoformat()
+                            else:
+                                item['sessionDate'] = str(session_date)
+                        except Exception:
+                            item['sessionDate'] = str(session_date)
+                    else:
+                        item['sessionDate'] = None
+                    
+                    # Add topics if available
+                    topics = record.get('topics', [])
+                    if topics and topics[0].get('name'):  # Check if topics exist and are not empty
+                        item['topics'] = [topic for topic in topics if topic.get('name')]
+                    else:
+                        item['topics'] = []
+                    
                     action_items.append(item)
+                
+                self.neo4j.logger.info(f"Found {len(action_items)} action items for user {user_id}")
                 return action_items
+                
         except Exception as e:
             self.neo4j.logger.error(f"Error getting user action items: {str(e)}")
             return []
@@ -134,17 +161,52 @@ class ActionItemService:
             return {}
             
         try:
-            return {
+            formatted = {
                 'id': node.get('id'),
-                'title': node.get('title', ''),
+                'title': node.get('title', '') or node.get('name', ''),
                 'description': node.get('description', ''),
                 'status': node.get('status', 'not_started'),
-                'due_date': node['due_date'].isoformat() if node.get('due_date') else None,
                 'priority': node.get('priority', 'medium'),
                 'topic': node.get('topic', ''),
-                'created_at': node['created_at'].isoformat() if node.get('created_at') else None,
-                'updated_at': node['updated_at'].isoformat() if node.get('updated_at') else None
             }
+            
+            # Handle created_at safely
+            if node.get('created_at'):
+                try:
+                    if hasattr(node['created_at'], 'isoformat'):
+                        formatted['created_at'] = node['created_at'].isoformat()
+                    else:
+                        formatted['created_at'] = str(node['created_at'])
+                except Exception:
+                    formatted['created_at'] = str(node['created_at'])
+            else:
+                formatted['created_at'] = None
+            
+            # Handle updated_at safely
+            if node.get('updated_at'):
+                try:
+                    if hasattr(node['updated_at'], 'isoformat'):
+                        formatted['updated_at'] = node['updated_at'].isoformat()
+                    else:
+                        formatted['updated_at'] = str(node['updated_at'])
+                except Exception:
+                    formatted['updated_at'] = str(node['updated_at'])
+            else:
+                formatted['updated_at'] = None
+            
+            # Handle due_date safely
+            if node.get('due_date'):
+                try:
+                    if hasattr(node['due_date'], 'isoformat'):
+                        formatted['due_date'] = node['due_date'].isoformat()
+                    else:
+                        formatted['due_date'] = str(node['due_date'])
+                except Exception:
+                    formatted['due_date'] = str(node['due_date'])
+            else:
+                formatted['due_date'] = None
+                
+            return formatted
         except Exception as e:
             self.neo4j.logger.error(f"Error formatting action item: {str(e)}")
             return {} 
