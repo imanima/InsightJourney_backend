@@ -39,8 +39,12 @@ class TranscriptionService:
         # Initialize OpenAI client (with compatibility with different OpenAI versions)
         if OPENAI_KEY:
             try:
-                # Initialize OpenAI client without proxy configuration to avoid issues
-                self.client = OpenAI(api_key=OPENAI_KEY)
+                # Initialize OpenAI client with modern v1.82.0 compatible parameters
+                self.client = OpenAI(
+                    api_key=OPENAI_KEY,
+                    timeout=60.0,  # Use timeout instead of deprecated parameters
+                    max_retries=3
+                )
                 log.info("OpenAI client initialized successfully")
             except Exception as e:
                 log.error(f"Error initializing OpenAI client: {str(e)}")
@@ -52,9 +56,45 @@ class TranscriptionService:
         self.temp_dir = tempfile.gettempdir()
         self.active_jobs = {}  # Store active transcription jobs
 
-    async def transcribe_audio(self, audio_path: Path) -> Optional[str]:
+    def get_user_transcription_settings(self, user_id: str = None) -> Dict[str, Any]:
+        """Load user's transcription settings from Neo4j"""
+        if not user_id:
+            return {
+                'transcription_model': AUDIO_MODEL,  # Use default from environment
+            }
+        
+        try:
+            # Import here to avoid circular imports
+            from services.neo4j_service import get_neo4j_service
+            
+            neo4j_service = get_neo4j_service()
+            settings = neo4j_service.get_user_settings(user_id)
+            
+            if settings:
+                transcription_model = settings.get('transcription_model', AUDIO_MODEL)
+                log.info(f"Loaded user transcription settings for {user_id}: model={transcription_model}")
+                return {
+                    'transcription_model': transcription_model,
+                }
+            else:
+                log.info(f"No user settings found for {user_id}, using defaults")
+                return {
+                    'transcription_model': AUDIO_MODEL,
+                }
+        except Exception as e:
+            log.error(f"Error loading user transcription settings: {str(e)}")
+            return {
+                'transcription_model': AUDIO_MODEL,  # Fallback to default
+            }
+
+    async def transcribe_audio(self, audio_path: Path, user_id: str = None) -> Optional[str]:
         """Transcribe an audio file using OpenAI's Whisper API."""
         try:
+            # Load user's transcription settings
+            user_settings = self.get_user_transcription_settings(user_id)
+            transcription_model = user_settings['transcription_model']
+            log.info(f"Using transcription model: {transcription_model}")
+            
             # Get audio duration
             duration = self._get_audio_duration(audio_path)
             log.info(f"Audio duration: {duration} seconds")
@@ -67,8 +107,8 @@ class TranscriptionService:
                 if not chunk_path:
                     continue
                     
-                # Transcribe chunk
-                chunk_transcript = await self._transcribe_chunk(chunk_path)
+                # Transcribe chunk with user's model
+                chunk_transcript = await self._transcribe_chunk(chunk_path, transcription_model)
                 if chunk_transcript:
                     full_transcript.append(chunk_transcript)
                     
@@ -82,8 +122,9 @@ class TranscriptionService:
             return None
 
     def _get_audio_duration(self, audio_path: Path) -> float:
-        """Get the duration of an audio file using ffprobe."""
+        """Get the duration of an audio file using ffprobe with fallback handling."""
         try:
+            # First try with ffprobe
             cmd = [
                 'ffprobe',
                 '-v', 'error',
@@ -91,11 +132,39 @@ class TranscriptionService:
                 '-of', 'default=noprint_wrappers=1:nokey=1',
                 str(audio_path)
             ]
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            return float(result.stdout.strip())
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+            
+            if result.returncode == 0 and result.stdout.strip():
+                duration_str = result.stdout.strip()
+                # Handle cases where ffprobe returns "N/A" or invalid data
+                if duration_str.lower() not in ['n/a', 'na', '']:
+                    try:
+                        duration = float(duration_str)
+                        if duration > 0:
+                            return duration
+                    except ValueError:
+                        pass
+            
+            # Fallback: estimate duration from file size (rough approximation)
+            file_size = audio_path.stat().st_size
+            # Rough estimate: 1MB = ~60 seconds of speech audio (very approximate)
+            estimated_duration = max(10.0, file_size / (1024 * 1024) * 60)
+            log.warning(f"Could not determine exact audio duration, using estimated duration: {estimated_duration} seconds")
+            return estimated_duration
+            
         except Exception as e:
             log.error(f"Error getting audio duration: {str(e)}")
-            return 0
+            # Return a reasonable default duration for processing
+            try:
+                # Use file size as last resort
+                file_size = audio_path.stat().st_size
+                estimated_duration = max(10.0, file_size / (1024 * 1024) * 60)
+                log.warning(f"Using file-size based duration estimate: {estimated_duration} seconds")
+                return estimated_duration
+            except:
+                # Absolute fallback
+                log.warning("Could not determine audio duration, using default 60 seconds")
+                return 60.0
 
     def _extract_audio_chunk(self, audio_path: Path, start_time: int, duration: int) -> Optional[Path]:
         """Extract a chunk of audio using ffmpeg."""
@@ -125,14 +194,14 @@ class TranscriptionService:
         stop=stop_after_attempt(3),
         wait=wait_exponential_jitter(initial=1, max=60)
     )
-    async def _transcribe_chunk(self, chunk_path: Path) -> Optional[str]:
+    async def _transcribe_chunk(self, chunk_path: Path, model: str) -> Optional[str]:
         """Transcribe a single chunk using OpenAI's Whisper API."""
         try:
             with open(chunk_path, 'rb') as audio_file:
                 response = await asyncio.to_thread(
                     self.client.audio.transcriptions.create,
                     file=audio_file,
-                    model=AUDIO_MODEL,
+                    model=model,
                     language="en"
                 )
                 
@@ -241,16 +310,79 @@ class TranscriptionService:
         job = self.active_jobs[transcription_id]
         audio_path = Path(job["file_path"])
         options = job["options"]
+        user_id = job.get("user_id")
         
         try:
+            # Load user's transcription settings
+            user_settings = self.get_user_transcription_settings(user_id)
+            transcription_model = user_settings['transcription_model']
+            log.info(f"Using transcription model for job {transcription_id}: {transcription_model}")
+            
             # Update status to processing
             self.active_jobs[transcription_id]["status"] = "processing"
             self.active_jobs[transcription_id]["progress"] = 10
             
+            # Check if we have a working OpenAI client
+            if not self.client or not OPENAI_KEY or OPENAI_KEY == "placeholder":
+                log.error("No valid OpenAI client available for transcription")
+                self.active_jobs[transcription_id].update({
+                    "status": "failed",
+                    "error": "OpenAI API key required for transcription. Please provide a valid API key."
+                })
+                return
+            
+            # Real transcription with OpenAI Whisper
+            log.info("Starting real transcription with OpenAI Whisper...")
+            
             # Get audio duration
             duration = self._get_audio_duration(audio_path)
+            log.info(f"Audio file duration: {duration} seconds")
             
-            # Process in chunks
+            # Update progress
+            self.active_jobs[transcription_id]["progress"] = 20
+            
+            # For shorter files, transcribe directly without chunking
+            if duration <= self.chunk_size_seconds:
+                log.info("Transcribing audio file directly (no chunking needed)")
+                try:
+                    with open(audio_path, 'rb') as audio_file:
+                        response = await asyncio.to_thread(
+                            self.client.audio.transcriptions.create,
+                            file=audio_file,
+                            model=transcription_model,  # Use user's model
+                            language=options.get("language", "en")
+                        )
+                    
+                    transcript = response.text
+                    if transcript and transcript.strip():
+                        # Success!
+                        self.active_jobs[transcription_id].update({
+                            "status": "completed",
+                            "progress": 100,
+                            "transcript": transcript,
+                            "completed_at": datetime.now().isoformat()
+                        })
+                        log.info(f"Transcription completed successfully. Length: {len(transcript)} characters")
+                        return
+                    else:
+                        # Empty transcript
+                        log.error("OpenAI returned empty transcript")
+                        self.active_jobs[transcription_id].update({
+                            "status": "failed",
+                            "error": "Transcription returned empty result. The audio may be silent or corrupted."
+                        })
+                        return
+                        
+                except Exception as e:
+                    log.error(f"Error in direct transcription: {str(e)}")
+                    self.active_jobs[transcription_id].update({
+                        "status": "failed",
+                        "error": f"Transcription failed: {str(e)}"
+                    })
+                    return
+            
+            # For longer files, process in chunks
+            log.info("Processing audio in chunks...")
             full_transcript = []
             chunks_total = max(1, int(duration) // self.chunk_size_seconds)
             chunks_processed = 0
@@ -261,8 +393,8 @@ class TranscriptionService:
                 if not chunk_path:
                     continue
                     
-                # Transcribe chunk
-                chunk_transcript = await self._transcribe_chunk(chunk_path)
+                # Transcribe chunk with user's model
+                chunk_transcript = await self._transcribe_chunk(chunk_path, transcription_model)
                 if chunk_transcript:
                     full_transcript.append(chunk_transcript)
                     
@@ -389,7 +521,40 @@ class TranscriptionService:
                 "status": "failed",
                 "error": "Transcription already linked to a different session"
             }
+        
+        # Get the transcript from the job
+        transcript = job.get("transcript", "")
+        
+        if not transcript:
+            return {
+                "status": "failed",
+                "error": "No transcript available to link"
+            }
+        
+        # Update the session with the transcript
+        try:
+            # Import here to avoid circular imports
+            from services.neo4j_service import get_neo4j_service
             
+            neo4j_service = get_neo4j_service()
+            success = neo4j_service.update_session_transcript(session_id, transcript)
+            
+            if not success:
+                log.error(f"Failed to update session {session_id} with transcript")
+                return {
+                    "status": "failed", 
+                    "error": "Failed to save transcript to session"
+                }
+            
+            log.info(f"Successfully updated session {session_id} with transcript (length: {len(transcript)} characters)")
+            
+        except Exception as e:
+            log.error(f"Error updating session transcript: {str(e)}")
+            return {
+                "status": "failed",
+                "error": f"Failed to update session: {str(e)}"
+            }
+        
         # Link the transcription
         self.active_jobs[transcription_id]["linked_session_id"] = session_id
         
@@ -397,7 +562,8 @@ class TranscriptionService:
             "status": "success",
             "message": "Transcription linked to session",
             "transcription_id": transcription_id,
-            "session_id": session_id
+            "session_id": session_id,
+            "transcript_length": len(transcript)
         }
         
     def cleanup_old_jobs(self, max_age_hours: int = 24) -> int:

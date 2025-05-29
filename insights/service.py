@@ -34,7 +34,7 @@ class InsightsService:
         self.neo4j = neo4j_service
         self.logger = logging.getLogger(__name__)
     
-    async def calculate_turning_point(self, user_id: str, emotion_name: str = "Anxiety") -> Dict[str, Any]:
+    def calculate_turning_point(self, user_id: str, emotion_name: str = "Anxiety") -> Dict[str, Any]:
         """
         Calculate a turning point where an emotion significantly decreased
         
@@ -54,7 +54,7 @@ class InsightsService:
                 f"MATCH (u:User {{userId: '{user_id}'}})-[:HAS_SESSION]->(s:Session)"
             )
             
-            result = await self.neo4j.run_query(user_filter_query)
+            result = self.neo4j.run_query(user_filter_query)
             
             if not result or len(result) == 0:
                 self.logger.info(f"No turning point found for user {user_id} and emotion {emotion_name}")
@@ -70,7 +70,7 @@ class InsightsService:
             LIMIT 1
             """
             
-            insight_result = await self.neo4j.run_query(insight_query)
+            insight_result = self.neo4j.run_query(insight_query)
             insight_id = None
             insight_name = None
             
@@ -96,7 +96,7 @@ class InsightsService:
             LIMIT 5
             """
             
-            sessions_before = await self.neo4j.run_query(sessions_query)
+            sessions_before = self.neo4j.run_query(sessions_query)
             sessions_before_ids = [s.get("session_id") for s in sessions_before] if sessions_before else []
             
             sessions_after_query = f"""
@@ -107,7 +107,7 @@ class InsightsService:
             LIMIT 5
             """
             
-            sessions_after = await self.neo4j.run_query(sessions_after_query)
+            sessions_after = self.neo4j.run_query(sessions_after_query)
             sessions_after_ids = [s.get("session_id") for s in sessions_after] if sessions_after else []
             
             # Construct result
@@ -131,7 +131,7 @@ class InsightsService:
             self.logger.error(f"Error calculating turning point: {str(e)}")
             return {}
     
-    async def calculate_correlations(self, user_id: str, limit: int = 5) -> List[Dict[str, Any]]:
+    def calculate_correlations(self, user_id: str, limit: int = 5) -> List[Dict[str, Any]]:
         """
         Calculate correlations between emotions and topics
         
@@ -156,7 +156,7 @@ class InsightsService:
                 f"LIMIT {limit}"
             )
             
-            result = await self.neo4j.run_query(user_filter_query)
+            result = self.neo4j.run_query(user_filter_query)
             
             if not result:
                 return []
@@ -203,7 +203,7 @@ class InsightsService:
             self.logger.error(f"Error calculating correlations: {str(e)}")
             return []
     
-    async def build_insight_cascade(self, user_id: str) -> Optional[Dict[str, Any]]:
+    def build_insight_cascade(self, user_id: str) -> Optional[Dict[str, Any]]:
         """
         Build a cascade map showing how insights lead to other insights
         
@@ -224,7 +224,7 @@ class InsightsService:
                 f"MATCH path=(i1)"
             )
             
-            result = await self.neo4j.run_query(user_filter_query)
+            result = self.neo4j.run_query(user_filter_query)
             
             if not result or len(result) == 0:
                 return None
@@ -286,7 +286,7 @@ class InsightsService:
             self.logger.error(f"Error building insight cascade: {str(e)}")
             return None
     
-    async def predict_future_focus(self, user_id: str) -> Optional[Dict[str, Any]]:
+    def predict_future_focus(self, user_id: str) -> Optional[Dict[str, Any]]:
         """
         Predict future topics based on topic transition patterns
         
@@ -306,7 +306,7 @@ class InsightsService:
             ORDER BY s.date
             """
             
-            result = await self.neo4j.run_query(query)
+            result = self.neo4j.run_query(query)
             
             if not result or len(result) < 3:  # Need at least 3 sessions for predictions
                 return None
@@ -352,7 +352,7 @@ class InsightsService:
                             RETURN emotion, avg_intensity
                             """
                             
-                            emotion_result = await self.neo4j.run_query(emotion_query)
+                            emotion_result = self.neo4j.run_query(emotion_query)
                             related_emotions = []
                             
                             if emotion_result:
@@ -371,7 +371,7 @@ class InsightsService:
             predictions.sort(key=lambda x: x["probability"], reverse=True)
             
             # Get overall confidence based on number of sessions and transitions
-            confidence_score = min(1.0, len(result) / 10)  # Max confidence at 10+ sessions
+            confidence_score = min(1.0, len(result) / 10)
             
             return {
                 "id": generate_insight_id("PRED"),
@@ -388,7 +388,7 @@ class InsightsService:
             self.logger.error(f"Error predicting future focus: {str(e)}")
             return None
     
-    async def track_challenge_persistence(self, user_id: str) -> List[Dict[str, Any]]:
+    def track_challenge_persistence(self, user_id: str) -> List[Dict[str, Any]]:
         """
         Track challenge persistence and badge achievements
         
@@ -406,7 +406,7 @@ class InsightsService:
                 f"MATCH (u:User {{userId: '{user_id}'}})-[:HAS_SESSION]->(s:Session)-[:HAS_CHALLENGE]->(c:Challenge)"
             )
             
-            result = await self.neo4j.run_query(user_filter_query)
+            result = self.neo4j.run_query(user_filter_query)
             
             if not result:
                 return []
@@ -439,30 +439,12 @@ class InsightsService:
                 
                 # Check for badges
                 badges = []
-                
-                # Add badges based on challenge status and progress
-                if session_count >= 3 and current_status == "inactive":
-                    # Challenge overcome badge
-                    badges.append({
-                        "id": generate_insight_id("BADGE"),
-                        "name": "Challenge Overcome",
-                        "description": f"Successfully overcame the challenge '{challenge_name}'",
-                        "earned_at": last_date,
-                        "challenge_id": challenge_id,
-                        "challenge_name": challenge_name,
-                        "session_count": session_count
-                    })
-                elif session_count >= 5:
-                    # Persistent worker badge
-                    badges.append({
-                        "id": generate_insight_id("BADGE"),
-                        "name": "Persistent Worker",
-                        "description": f"Consistently working on the challenge '{challenge_name}'",
-                        "earned_at": datetime.now().isoformat(),
-                        "challenge_id": challenge_id,
-                        "challenge_name": challenge_name,
-                        "session_count": session_count
-                    })
+                if persistence_days >= 30:
+                    badges.append("30-Day Persistence")
+                if persistence_days >= 90:
+                    badges.append("Quarterly Focus")
+                if session_count >= 5:
+                    badges.append("Deep Work")
                 
                 # Create insight
                 insights.append({
@@ -487,7 +469,7 @@ class InsightsService:
             self.logger.error(f"Error tracking challenge persistence: {str(e)}")
             return []
     
-    async def generate_therapist_snapshot(self, user_id: str) -> Optional[Dict[str, Any]]:
+    def generate_therapist_snapshot(self, user_id: str) -> Optional[Dict[str, Any]]:
         """
         Generate a comprehensive therapist-friendly snapshot
         
@@ -506,7 +488,7 @@ class InsightsService:
             LIMIT 6
             """
             
-            sessions_result = await self.neo4j.run_query(sessions_query)
+            sessions_result = self.neo4j.run_query(sessions_query)
             
             if not sessions_result or len(sessions_result) == 0:
                 return None
@@ -528,7 +510,7 @@ class InsightsService:
             LIMIT 3
             """
             
-            emotions_result = await self.neo4j.run_query(emotions_query)
+            emotions_result = self.neo4j.run_query(emotions_query)
             
             progress_data = {}
             if emotions_result:
@@ -557,7 +539,7 @@ class InsightsService:
             ORDER BY days_to_insight
             """
             
-            breakthrough_result = await self.neo4j.run_query(breakthrough_query)
+            breakthrough_result = self.neo4j.run_query(breakthrough_query)
             
             breakthrough_data = {}
             if breakthrough_result:
@@ -579,7 +561,7 @@ class InsightsService:
             LIMIT 5
             """
             
-            belief_result = await self.neo4j.run_query(belief_query)
+            belief_result = self.neo4j.run_query(belief_query)
             
             belief_data = {}
             if belief_result:
@@ -601,7 +583,7 @@ class InsightsService:
                 max(duration.between(datetime(created), datetime(completed_date)).days) as longest_streak
             """
             
-            action_result = await self.neo4j.run_query(action_query)
+            action_result = self.neo4j.run_query(action_query)
             
             action_data = {}
             if action_result and len(action_result) > 0:
@@ -616,7 +598,7 @@ class InsightsService:
                 }
             
             # 5. Next session forecast (optional)
-            forecast = await self.predict_future_focus(user_id)
+            forecast = self.predict_future_focus(user_id)
             forecast_data = {}
             
             if forecast and forecast.get("predictions"):

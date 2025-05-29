@@ -209,4 +209,48 @@ async def get_session(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred"
+        )
+
+@router.delete("/{session_id}")
+async def delete_session(
+    session_id: str,
+    current_user_id: str = Depends(get_current_user_id)
+):
+    """Delete a session"""
+    try:
+        logger.info(f"Deleting session {session_id}")
+        
+        # Get session service
+        session_service = get_session_service()
+        
+        # Get session from database to verify it exists and user owns it
+        session_data = session_service.get_session(session_id)
+        
+        if not session_data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Session {session_id} not found"
+            )
+        
+        # Check if user owns this session
+        if session_data.get("userId") != current_user_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Access denied"
+            )
+        
+        # Delete the session
+        session_service.delete_session(session_id, current_user_id)
+        
+        logger.info(f"Successfully deleted session {session_id}")
+        
+        return {"message": "Session deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting session {session_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred"
         ) 

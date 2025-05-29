@@ -142,7 +142,7 @@ async def analyze_transcript(
         
         # Use analysis service to process transcript
         try:
-            analysis_results = analyze_transcript_and_extract(transcript)
+            analysis_results = analyze_transcript_and_extract(transcript, user_id=current_user_id)
             
             if analysis_results.get("status") != "completed":
                 raise HTTPException(

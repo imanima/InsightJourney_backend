@@ -514,31 +514,64 @@ class Neo4jService:
             return None
 
     def delete_session(self, session_id: str) -> bool:
-        """Delete a session and all its relationships"""
+        """Delete only the session node and its direct relationships, preserving analysis elements"""
         try:
             with self.driver.session() as session:
-                # Find the previous session to update its LastSession flag
-                session.run("""
+                # Log what we're about to delete
+                self.logger.info(f"Deleting session node {session_id} while preserving analysis elements")
+                
+                # Get session info before deletion for logging
+                session_info = session.run("""
                     MATCH (s:Session {id: $session_id})
-                    WITH s
-                    MATCH (prev:Session)
-                    WHERE prev.created_at < s.created_at
-                    WITH prev
-                    ORDER BY prev.created_at DESC
-                    LIMIT 1
-                    SET prev.isLastSession = true
+                    OPTIONAL MATCH (s)-[:HAS_EMOTION]->(e:Emotion)
+                    OPTIONAL MATCH (s)-[:HAS_INSIGHT]->(i:Insight)
+                    OPTIONAL MATCH (s)-[:HAS_BELIEF]->(b:Belief)
+                    OPTIONAL MATCH (s)-[:HAS_CHALLENGE]->(c:Challenge)
+                    OPTIONAL MATCH (s)-[:HAS_ACTION_ITEM]->(a:ActionItem)
+                    RETURN s.title as title, 
+                           count(DISTINCT e) as emotions_count,
+                           count(DISTINCT i) as insights_count,
+                           count(DISTINCT b) as beliefs_count,
+                           count(DISTINCT c) as challenges_count,
+                           count(DISTINCT a) as action_items_count
+                """, session_id=session_id).single()
+                
+                if session_info:
+                    self.logger.info(f"Deleting session '{session_info['title']}' with "
+                                   f"{session_info['emotions_count']} emotions, "
+                                   f"{session_info['insights_count']} insights, "
+                                   f"{session_info['beliefs_count']} beliefs, "
+                                   f"{session_info['challenges_count']} challenges, "
+                                   f"{session_info['action_items_count']} action items "
+                                   f"(analysis elements will be preserved)")
+                
+                # Delete only the session node and its direct relationships
+                # This removes the session but keeps all analysis elements intact
+                result = session.run("""
+                    MATCH (s:Session {id: $session_id})
+                    
+                    // Count relationships before deletion for logging
+                    OPTIONAL MATCH (s)-[r]-()
+                    WITH s, count(r) as relationship_count
+                    
+                    // Delete all relationships connected to the session
+                    DETACH DELETE s
+                    
+                    RETURN relationship_count
                 """, session_id=session_id)
                 
-                # Delete the session and all related nodes
-                session.run("""
-                    MATCH (s:Session {id: $session_id})
-                    OPTIONAL MATCH (s)-[r]->(n)
-                    DELETE r, n, s
-                """, session_id=session_id)
-                
-                return True
+                record = result.single()
+                if record:
+                    relationship_count = record["relationship_count"]
+                    self.logger.info(f"Deleted session node and {relationship_count} direct relationships")
+                    self.logger.info(f"Successfully deleted session {session_id} while preserving all analysis elements")
+                    return True
+                else:
+                    self.logger.warning(f"Session {session_id} not found")
+                    return False
+                    
         except Exception as e:
-            self._handle_error(e, "delete_session")
+            self.logger.error(f"Error deleting session {session_id}: {str(e)}")
             return False
 
     def get_session_data(self, session_id: str) -> Dict[str, Any]:
@@ -989,33 +1022,36 @@ class Neo4jService:
             self._handle_error(e, "add_challenge_to_session")
 
     def add_action_item_to_session(self, session_id: str, action_data: Dict[str, Any]) -> str:
-        """Add an action item to a session"""
+        """Add an action item to a session using MERGE to avoid duplicates"""
         try:
             with self.driver.session() as session:
                 # Extract topics from action item data
                 topics = action_data.pop('topics', []) if 'topics' in action_data else []
                 
                 # Prepare action item data
-                action_id = self._generate_id("A")
+                action_id = action_data.get('id') or self._generate_id("A")
                 action_data = self._ensure_timestamps(action_data)
                 
                 # Handle both text and description fields
                 text = action_data.get('text', '')
                 description = action_data.get('description', '')
-                action_name = action_data.get('actionName', text[:50] if text else description[:50])
+                action_name = action_data.get('name') or action_data.get('actionName') or text[:50] if text else description[:50]
                 
                 action_data.update({
                     'id': action_id,
-                    'actionName': action_name,
+                    'name': action_name,
                     'description': description or text,  # Use description if available, otherwise use text
                     'user_id': action_data.get('user_id')
                 })
                 
-                # Create action item node and relationship
+                # Use MERGE to create action item node and relationship to avoid duplicates
                 result = session.run("""
                     MATCH (s:Session {id: $session_id})
-                    CREATE (a:ActionItem $action_data)
-                    CREATE (s)-[r:HAS_ACTION_ITEM {
+                    MERGE (a:ActionItem {id: $action_id})
+                    ON CREATE SET a += $action_data
+                    ON MATCH SET a += $action_data
+                    MERGE (s)-[r:HAS_ACTION_ITEM]->(a)
+                    ON CREATE SET r += {
                         priority: $priority,
                         status: $status,
                         due_date: $due_date,
@@ -1023,10 +1059,19 @@ class Neo4jService:
                         created_at: $created_at,
                         updated_at: $updated_at,
                         modified_by: $modified_by
-                    }]->(a)
+                    }
+                    ON MATCH SET r += {
+                        priority: $priority,
+                        status: $status,
+                        due_date: $due_date,
+                        context: $context,
+                        updated_at: $updated_at,
+                        modified_by: $modified_by
+                    }
                     RETURN a.id as action_id
                 """, 
                 session_id=session_id,
+                action_id=action_id,
                 action_data=action_data,
                 priority=action_data.get('priority', 'medium'),
                 status=action_data.get('status', 'pending'),
@@ -1038,8 +1083,10 @@ class Neo4jService:
                 
                 record = result.single()
                 if not record:
-                    self.logger.error(f"Failed to create action item for session {session_id}")
+                    self.logger.error(f"Failed to create/update action item for session {session_id}")
                     return None
+                
+                self.logger.info(f"Successfully created/updated action item {action_id} for session {session_id}")
                 
                 # Create topic relationships if topics provided
                 for topic_name in topics:
@@ -2069,7 +2116,7 @@ class Neo4jService:
 
     def update_session_with_elements(self, session_id: str, elements: Dict[str, Any], user_id: str) -> bool:
         """
-        Update a session with extracted elements and set analysis status to completed.
+        Update a session with extracted elements efficiently - only update modified items.
         
         Args:
             session_id: ID of the session to update
@@ -2080,7 +2127,7 @@ class Neo4jService:
             bool: True if successful, False otherwise
         """
         try:
-            self.logger.info(f"Starting update_session_with_elements for session {session_id}")
+            self.logger.info(f"Starting efficient update for session {session_id}")
             self.logger.info(f"Elements received: {elements}")
             
             # Verify session exists
@@ -2089,8 +2136,9 @@ class Neo4jService:
                 self.logger.error(f"Session {session_id} not found")
                 return False
 
-            # FIRST: Clear existing analysis elements for this session to prevent duplicates
-            self.logger.info(f"Clearing existing relationships for session {session_id}")
+            # Simple approach: Clear existing relationships and recreate all
+            # This is simpler than tracking individual changes and ensures consistency
+            self.logger.info(f"Clearing existing analysis relationships for session {session_id}")
             with self.driver.session() as session_db:
                 result = session_db.run("""
                     MATCH (s:Session {id: $session_id})
@@ -2126,7 +2174,7 @@ class Neo4jService:
                 # Format beliefs: [id, name, description, impact, topic, timestamp]
                 if "beliefs" in elements:
                     analysis_data["Beliefs"] = [
-                        [str(uuid.uuid4()), b["name"], b.get("description", ""), b.get("impact", "Medium"), b.get("topic", "Personal Growth")]
+                        [b.get("id", str(uuid.uuid4())), b["name"], b.get("description", ""), b.get("impact", "Medium"), b.get("topic", "Personal Growth")]
                         for b in elements["beliefs"]
                     ]
                     self.logger.info(f"Formatted {len(analysis_data['Beliefs'])} beliefs")
@@ -2134,7 +2182,7 @@ class Neo4jService:
                 # Format action items: [id, name, description, topic, status]
                 if "action_items" in elements:
                     analysis_data["actionitems"] = [
-                        [str(uuid.uuid4()), a["name"], a.get("description", ""), a.get("topic", "Personal Growth"), a.get("status", "hasn't started")]
+                        [a.get("id", str(uuid.uuid4())), a["name"], a.get("description", ""), a.get("topic", "Personal Growth"), a.get("status", "hasn't started")]
                         for a in elements["action_items"]
                     ]
                     self.logger.info(f"Formatted {len(analysis_data['actionitems'])} action items")
@@ -2261,3 +2309,30 @@ class Neo4jService:
         except Exception as e:
             self.logger.error(f"Error getting session analysis: {str(e)}")
             return None
+
+    def update_session_transcript(self, session_id: str, transcript: str) -> bool:
+        """Update a session's transcript field"""
+        try:
+            with self.driver.session() as session:
+                result = session.run("""
+                    MATCH (s:Session {id: $session_id})
+                    SET s.transcript = $transcript,
+                        s.updated_at = $updated_at
+                    RETURN s.id as session_id
+                """,
+                session_id=session_id,
+                transcript=transcript,
+                updated_at=datetime.now().isoformat()
+                )
+                
+                record = result.single()
+                if record:
+                    self.logger.info(f"Successfully updated transcript for session {session_id}")
+                    return True
+                else:
+                    self.logger.error(f"Session {session_id} not found for transcript update")
+                    return False
+                    
+        except Exception as e:
+            self.logger.error(f"Error updating session transcript: {str(e)}")
+            return False

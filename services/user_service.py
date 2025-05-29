@@ -38,6 +38,11 @@ class UserService:
                 original_email=email  # Pass original email for lookup node creation
             )
             
+            if user_id:
+                # Create default user settings
+                logger.info(f"Creating default settings for new user: {user_id}")
+                self._create_default_user_settings(user_id)
+            
             return user_id
         except ValueError:
             # Re-raise ValueError for duplicate users
@@ -45,6 +50,46 @@ class UserService:
         except Exception as e:
             logger.error(f"Error creating user: {str(e)}")
             raise ValueError(f"Failed to create user: {str(e)}")
+
+    def _create_default_user_settings(self, user_id: str) -> bool:
+        """Create default settings for a new user"""
+        try:
+            # Get default analysis prompt template from analysis service
+            try:
+                from services.analysis_service import PROMPT_TEMPLATE
+                default_analysis_prompt = PROMPT_TEMPLATE
+            except Exception as e:
+                logger.warning(f"Could not load default analysis prompt: {str(e)}")
+                default_analysis_prompt = None
+            
+            # Create default settings
+            default_settings = {
+                'notifications': True,
+                'dark_mode': False,
+                'reminder_frequency': 'weekly',
+                'privacy_mode': False,
+                'max_sessions': 10,
+                'max_duration': 3600,
+                'allowed_file_types': ['mp3', 'wav', 'm4a', 'txt'],
+                'gpt_model': 'gpt-4.1-mini',
+                'transcription_model': 'gpt-4o-transcribe',
+                'max_tokens': 1500,
+                'temperature': 0.7,
+                'system_prompt_template': 'You are a helpful therapy analysis assistant that extracts structured insights from therapy session transcripts.',
+                'analysis_prompt_template': default_analysis_prompt
+            }
+            
+            # Save the default settings
+            success = self.neo4j.save_user_settings(user_id, default_settings)
+            if success:
+                logger.info(f"Successfully created default settings for user: {user_id}")
+            else:
+                logger.error(f"Failed to create default settings for user: {user_id}")
+            
+            return success
+        except Exception as e:
+            logger.error(f"Error creating default user settings: {str(e)}")
+            return False
 
     def verify_password(self, email: str, password: str) -> bool:
         """Verify a user's password"""
